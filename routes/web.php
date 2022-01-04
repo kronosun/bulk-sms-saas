@@ -61,6 +61,18 @@ Route::group(['middleware' => ['auth']], function () {
 
 
         });
+
+         // credit routes
+        Route::group(['prefix' => 'credits'], function () {
+            Route::get('/', 'CreditController@index')->name('credits');
+            Route::get('/buy', 'CreditController@buy')->name('buy-unit');
+        });
+
+         // credit routes
+        Route::group(['prefix' => 'payments'], function () {
+            Route::post('/create', 'PaymentController@create')->name('create-payment');
+            Route::post('/update', 'PaymentController@update')->name('update-payment');
+        });
     });
 
     

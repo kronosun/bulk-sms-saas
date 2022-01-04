@@ -136,7 +136,7 @@ class SmsController extends Controller
     }
 
     public function sent(){
-        $messages = $data['messages'] = Message::where('user_id', Auth::user()->id)->where('status', '>=', '1')->where('status', '<=', '3')->with('contacts')->with('messageStatus')->get();
+        $messages = $data['messages'] = Message::where('user_id', Auth::user()->id)->where('status', '>=', '1')->where('status', '<=', '3')->with('contacts')->with('messageStatus')->latest()->get();
 
         // foreach ($messages as $key => $message) {
         //     dd($message->messageStatus->color);
@@ -168,7 +168,7 @@ class SmsController extends Controller
     }
 
     public function draft(){
-        $messages = $data['messages'] = Message::where('user_id', Auth::user()->id)->where('status', '=', '0')->get();
+        $messages = $data['messages'] = Message::where('user_id', Auth::user()->id)->where('status', '=', '0')->latest()->get();
         return view('sms.draft')->with($data);
     }
     public function edit(Request $request){
@@ -236,7 +236,7 @@ class SmsController extends Controller
     }
 
     public function scheduled(){
-        $messages = $data['messages'] = Message::where('user_id', Auth::user()->id)->where('status', '>=', '4')->where('status', '<=', '5')->with('schedule')->get();
+        $messages = $data['messages'] = Message::where('user_id', Auth::user()->id)->where('status', '>=', '4')->where('status', '<=', '5')->with('schedule')->latest()->get();
        // foreach ($messages as $key => $message) {
        //    dd($message->schedule()->first()->contact);
        // }

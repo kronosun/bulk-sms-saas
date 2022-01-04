@@ -2,6 +2,7 @@
 @section('title', 'dashboard')
 @section('content')
     <div class="main-container">
+        @include('layouts.shared.alert')
         <div class="xs-pd-20-10 pd-ltr-20">
             <div class="card-box pd-20 height-100-p mb-30">
                 <div class="row align-items-center">
@@ -18,6 +19,7 @@
             </div>
             <div class="row mb-3"> 
                 <div class="col-xl-3 col-sm-6 col-12">
+
                     <div class="card">
                         <div class="card-body">
                             <div class="dash-widget-header">
@@ -46,7 +48,7 @@
                                     <i class="fa fa-list"></i>
                                 </span>
                                 <div class="dash-count">
-                                    <h3 class="text-brand-1">209</h3>
+                                    <h3 class="text-brand-1">{{ Auth::user()->units->sum('available_units') }}</h3>
                                 </div>
                             </div>
                             <div class="dash-widget-info">
@@ -100,6 +102,20 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-8 mb-30">
+                    <div class="card-box height-100-p pd-20">
+                        <h2 class="h4 mb-20">Activity</h2>
+                        <div id="chart5"></div>
+                    </div>
+                </div>
+                <div class="col-xl-4 mb-30">
+                    <div class="card-box height-100-p pd-20">
+                        <h2 class="h4 mb-20">Lead Target</h2>
+                        <div id="chart6"></div>
                     </div>
                 </div>
             </div>

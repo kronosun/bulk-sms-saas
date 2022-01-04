@@ -45,4 +45,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function schedules(){
         return $this->hasMany(Message::class)->where('user_id', Auth::user()->id);
     }
+
+    public function units(){
+        return $this->hasMany(UnitPurchase::class);
+    }
 }

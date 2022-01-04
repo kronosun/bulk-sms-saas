@@ -73,15 +73,13 @@
 <div class="mobile-menu-overlay"></div>
 @yield('content')
 
-@include('layouts.dashboard.header')
-
 @include('layouts.dashboard.footer')
 
 
 
 <!-- js -->
 	<script src="{{ asset('dashboard/vendors/scripts/core.js')}}"></script>
-	<script src="{{ asset('dashboard/vendors/scripts/script.js')}}"></script>
+	{{-- <script src="{{ asset('dashboard/vendors/scripts/script.js')}}"></script> --}}
 	<script src="{{ asset('dashboard/vendors/scripts/script.min.js')}}"></script>
 	<script src="{{ asset('dashboard/vendors/scripts/process.js')}}"></script>
 	<script src="{{ asset('dashboard/vendors/scripts/layout-settings.js')}}"></script>
@@ -92,9 +90,6 @@
 	<!-- bootstrap-touchspin js -->
 	<script src="{{ asset('dashboard/src/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.js')}}"></script>
 	<script src="{{ asset('dashboard/vendors/scripts/advanced-components.js')}}"></script>
-
-	
-
 
 
 	<script src="{{ asset('dashboard/src/plugins/datatables/js/jquery.dataTables.min.js')}}"></script>
