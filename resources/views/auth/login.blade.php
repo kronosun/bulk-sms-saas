@@ -19,6 +19,7 @@
                         <div class="login-title">
                             <h2 class="text-center">Login To Skezzole</h2>
                         </div>
+                        @include('layouts.shared.alert')
                         <form method="post" action="{{ route('login') }}">
                             @csrf
                             <div class="input-group custom">

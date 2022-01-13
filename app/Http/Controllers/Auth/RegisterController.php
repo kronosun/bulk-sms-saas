@@ -82,7 +82,8 @@ class RegisterController extends Controller
         $user->save();
 
         Mail::to($user->email)->send(new UserRegisterMail($user));
-
-        dd('yes');
+        Session(['email'=>$user->email]);
+        return $user;
+        // return redirect()->route('verify-email');
     }
 }

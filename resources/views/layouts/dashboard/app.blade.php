@@ -121,32 +121,44 @@
 				$('#title').css('border-color', '#dd4c4c')
 				return false;
 			}else{
-				$('#title').css('border-color', '#d4d4d4')
-				let charCount = $(this).val().length;
 
-				let countFactor = parseFloat(charCount/60)
-				let countFactorStr = countFactor.toString();
-				let countSplit = countFactorStr.split('.')
-				
-				let wholeNo = countSplit[0];
-				let fraction = countSplit[1];
-
-				let fractionToNo = parseInt(fraction)
-				console.log(wholeNo);
-				if (isNaN(fractionToNo)) {
-					addFactor = 0
-				}else{
-					addFactor = 1
-				}
-
-				let pageCount = parseInt(wholeNo) + parseInt(addFactor);
-				// alert(wholeNo)
-				$('#char-count').html(charCount)
-				$('#page-count').html(pageCount)
+				$('#message-content').on('input', function(e){
+					$('#title').css('border-color', '#d4d4d4')
+					countChar();
+				})
 			}
 			
 		})
+		var pcount = 0;
 
+		countChar();
+
+		function countChar(){
+			let charCount = $('#message-content').val().length;
+
+			let countFactor = parseFloat(charCount/60)
+			let countFactorStr = countFactor.toString();
+			let countSplit = countFactorStr.split('.')
+			
+			let wholeNo = countSplit[0];
+			let fraction = countSplit[1];
+
+			let fractionToNo = parseInt(fraction)
+			console.log(fractionToNo);
+			if (isNaN(fractionToNo)) {
+				addFactor = 0
+			}else{
+				addFactor = 1
+			}
+
+			let pageCount = parseInt(wholeNo) + parseInt(addFactor);
+
+			pcount= pageCount;
+			
+			// alert(wholeNo)
+			$('#char-count').html(charCount)
+			$('#page-count').html(pageCount)
+		}
 		$('#send-option').on('change', function(){
 			let $this = $(this);
 			let option = $this.val();

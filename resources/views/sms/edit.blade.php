@@ -50,7 +50,7 @@
 								<label class="col-form-label">Send option</label>
 								<select class="form-control" id="send-option">
 									<option selected disabled value="">Select One</option>
-									<option value="existing">Existing contacts</option>
+									<option value="existing" >Existing contacts</option>
 									<option value="upload">Upload new contacts</option>
 									<option value="manual_input">Manualy input contacts</option>
 								</select>
@@ -63,6 +63,9 @@
 										
 									<optgroup label="Contact Groups">
 										@foreach(Auth::user()->contacts as $contact)
+										@php
+											$contactArr[$contact->id] = count(explode(',', $contact->numbers))
+										@endphp
 										<option value="{{ $contact->id }}">{{ $contact->title }}</option>
 										@endforeach
 									</optgroup>
@@ -125,11 +128,13 @@
 	    </div>
 	  </div>
 	</div>
-
+{{-- 	{{ dd($contactArr) }} --}}
 	<script>
 		
 		$(document).ready(function(){
+			var contactArr = <?= json_encode($contactArr) ?>;
 			
+
 			var typeCount = 0
 			$('#message-content').on('input', function(){
 				// alert('yes')
@@ -194,55 +199,162 @@
 					let msgSlug = $('#message-slug').val();
 					// if sending to manually inputted contact
 					if (option=='manual_input') {
-						let numbers = $('#contact-input').val()
-						$.ajax({
+						let numbers = $('#contact-input').val();
+						let numSplit = numbers.split(',');
 
-							type: 'POST',
-							url: "{{ route('send-composed-message') }}",
-							data: {
-								slug: msgSlug,
-								numbers: numbers,
-								_token: universal_token
-							},
-							success:function(response){
-								let feedback = JSON.parse(response);
-								if (feedback.status == 'success') {
-									window.location.replace("{{ route('sent-sms') }}");
+						let availableUnits = parseFloat("{{ Auth::user()->units->sum('available_units') }}")
+						let requiredUnits = parseFloat(numSplit.length) * parseFloat(pcount);
+						let capacity = availableUnits/parseFloat(pcount);
+						if (requiredUnits > availableUnits) {
 
+							swal({
+				                title: 'Insufficient Units?',
+				                text: "You only have "+availableUnits+" units but your message requires at least "+requiredUnits+" units to deliver to all numbers. If you want to continue, click proceed and we shall send your message to first "+Math.trunc(capacity)+" numbers only",
+				                icon: 'warning',
+				                buttons: true,
+				                // confirmButtonClass: 'btn btn-success',
+				                // cancelButtonClass: 'btn btn-danger',
+				                // confirmButtonText: 'Yes, delete it!',
+
+				            }).then((proceed)=>{
+				            	if (proceed) {
+				            		$.ajax({
+
+										type: 'POST',
+										url: "{{ route('send-composed-message') }}",
+										data: {
+											slug: msgSlug,
+											numbers: numbers,
+											_token: universal_token
+										},
+										success:function(response){
+											let feedback = JSON.parse(response);
+											if (feedback.status == 'success') {
+												console.log(feedback);
+												return;
+
+											}else{
+												swal({
+									                title: feedback.status,
+									                text: feedback.msg,
+									                icon: feedback.alert,
+
+									            })
+												console.log(response);
+												return;
+											}
+										}
+									});
+				            	}
+				            })
+						}else{
+							$.ajax({
+
+								type: 'POST',
+								url: "{{ route('send-composed-message') }}",
+								data: {
+									slug: msgSlug,
+									numbers: numbers,
+									_token: universal_token
+								},
+								success:function(response){
+									let feedback = JSON.parse(response);
+									if (feedback.status == 'success') {
+										console.log(feedback);
+										return;
+
+									}else{
+										swal({
+							                title: feedback.status,
+							                text: feedback.msg,
+							                icon: feedback.alert,
+
+							            })
+										console.log(response);
+										return;
+									}
 								}
-								console.log(response);
-								 // $('#message-slug').val(response);
-							}
-						});
+							});
+						}
+						
+						
 					}
-					// if sending to manually existing contatcs
+					// if sending to existing contatcs
 					if (option=='existing') {
-						let contacts = $('.existing').val()
-						$.ajax({
+						let cc = $('.existing').val();
+						
+						let contactSplit = cc.toString().split(',');
+						let numberCount = 0;
+						$.each(contactSplit, function(index, value){
+							numberCount = numberCount + parseInt(contactArr[value])
+				            // alert();
+				        });
 
-							type: 'POST',
-							url: "{{ route('send-composed-message') }}",
-							data: {
-								slug: msgSlug,
-								contacts: contacts,
-								_token: universal_token
-							},
-							success:function(response){
-								let feedback = JSON.parse(response);
-								if (feedback.status == 'success') {
-									window.location.replace("{{ route('sent-sms') }}");
+						let availableUnits = parseFloat("{{ Auth::user()->units->sum('available_units') }}")
+						let requiredUnits = parseFloat(numberCount) * parseFloat(pcount);
+						let capacity = availableUnits/parseFloat(pcount);
+						if (requiredUnits > availableUnits) {
 
+							swal({
+				                title: 'Insufficient Units?',
+				                text: "You only have "+availableUnits+" units but your message requires at least "+requiredUnits+" units to deliver to all numbers. If you want to continue, click proceed and we shall send your message to first "+Math.trunc(capacity)+" numbers only",
+				                icon: 'warning',
+				                buttons: true,
+				                // confirmButtonClass: 'btn btn-success',
+				                // cancelButtonClass: 'btn btn-danger',
+				                // confirmButtonText: 'Yes, delete it!',
+
+				            }).then((proceed)=>{
+				            	if (proceed) {
+									$.ajax({
+
+										type: 'POST',
+										url: "{{ route('send-composed-message') }}",
+										data: {
+											slug: msgSlug,
+											contacts: contacts,
+											_token: universal_token
+										},
+										success:function(response){
+											let feedback = JSON.parse(response);
+											if (feedback.status == 'success') {
+												window.location.replace("{{ route('sent-sms') }}");
+
+											}
+											console.log(response);
+											 // $('#message-slug').val(response);
+										}
+									});
 								}
-								console.log(response);
-								 // $('#message-slug').val(response);
-							}
-						});
-					}
+							})
+						}else{
+							return;
+							$.ajax({
+
+								type: 'POST',
+								url: "{{ route('send-composed-message') }}",
+								data: {
+									slug: msgSlug,
+									contacts: contacts,
+									_token: universal_token
+								},
+								success:function(response){
+									let feedback = JSON.parse(response);
+									if (feedback.status == 'success') {
+										window.location.replace("{{ route('sent-sms') }}");
+
+									}
+									console.log(response);
+									 // $('#message-slug').val(response);
+								}
+							});
+						}
 					
-				}
+					}
 				
 				 
-			})
+				}
+			});
 
 
 

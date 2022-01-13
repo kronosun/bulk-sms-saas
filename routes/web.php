@@ -19,13 +19,19 @@ Route::get('/', function () {
 Route::get('contact-api', function () {
     return view('contact-api');
 });
+
+
+// Route::get('/verify-email', 'UserController@emailVerification')->name('verify-email');
+
+Route::get('/verify-email/{email}/{code}', 'UserController@verifyEmail')->name('verify-email');
 Auth::routes(['verify' => true]);
-
-
 
 // authenticated user routes
 Route::group(['middleware' => ['auth']], function () {
+    // unverified users route
+    Route::post('/resend-verification', 'UserController@resendVerificationMail')->name('resend-verification');
 
+    
     // verified user routes
     Route::group(['middleware'=>['verified']], function () {
         Route::get('/home', 'HomeController@index')->name('home');

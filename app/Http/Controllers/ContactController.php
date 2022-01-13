@@ -32,10 +32,28 @@ class ContactController extends Controller
             'title'=>'required',
             'numbers'=>'required'
         ]);
+
+        $numbers = $this->clean->sanitizeInput($request->numbers);
+        $numArr = explode(',', $numbers);
+
+            foreach ($numArr as $key => $num) {
+                $first3 = substr($num, 0, 3);
+                if ($first3!='234') {
+
+                    $num = '234'.ltrim($num, $num[0]);
+                    
+                }
+
+                $numArr[$key] = $num;
+                
+            }
+            
+        
         // dd($request);
         $contact = new Contact;
+        $contact->numbers = implode(',', $numArr);
         $contact->title = $this->clean->sanitizeInput($request->title);
-        $contact->numbers = $this->clean->sanitizeInput($request->numbers);
+        // $contact->numbers = $this->clean->sanitizeInput($request->numbers);
         $contact->slug =str_replace(' ', '_',  $this->clean->sanitizeInput($request->title)).'_'.Str::random(12);
         $contact->user_id = Auth::user()->id;
         $contact->save();

@@ -11,11 +11,13 @@ use App\Contact;
 use App\MessageContact;
 use DB;
 use App\MessageSchedule;
+use App\Custom\sendMessage;
 
 class SmsController extends Controller
 {
     function __construct(){
         $this->clean = new SanitizeInput;
+        $this->sendMessage = new SendMessage;
     }
 
     public function compose(){
@@ -48,42 +50,104 @@ class SmsController extends Controller
     public function sendComposed(Request $request){
         
         $msgSlug = $this->clean->sanitizeInput($request->slug);
+
+        $message = Message::where('slug', $msgSlug)->first();
+
+        $charLen = strlen($message->content);
+        // return $charLen;
+        $countFactor = $charLen/60;
+        // return (float)$countFactor;
+        $countFactorStr = strval((float)$countFactor);
+        $countSplit = explode('.', $countFactorStr);
+
+        $wholeNo = $countSplit[0];
+        if (count($countSplit)>1) {
+            $addFactor = 1;
+        }else{
+            $addFactor = 0;
+        }
+        
+        $pageCount = (int)$wholeNo + $addFactor;
+
          // generate a reference (for local simulation purpose only);
         $gatewayMsgRef =Str::random(10);
 
         if ($request->numbers) {
             $numbers = $this->clean->sanitizeInput($request->numbers);
             
-
-           
             $title = 'Untitled '.Str::random(4);
             // save numbers first
             $contact = new Contact;
-            $contact->numbers = $numbers;
+           
+            $numArr = explode(',', $numbers);
+            $requiredUnits = count($numArr) * $pageCount;
+            $capacity = floor(Auth::user()->units->sum('available_units')/$pageCount);
+            // return count($numAr r* $pageCount);
+            
+            foreach ($numArr as $key => $num) {
+
+                    $first3 = substr($num, 0, 3);
+                    if ($first3!='234') {
+                        $num = '234'.ltrim($num, $num[0]);
+                    }
+
+                    $numArr[$key] = $num;
+                
+            }
+            
+            $contact->numbers = implode(',', $numArr);
+            // return $numArr;
             $contact->title = $title;
             $contact->slug = $contact->slug =str_replace(' ', '_',  $title).'_'.Str::random(12);
             $contact->user_id = Auth::user()->id;
             $contact->save();
 
-            $message = Message::where('slug', $this->clean->sanitizeInput($request->slug))->first();
 
+            $sendArr = explode(',', $contact->numbers);
+            $sendArr = array_slice($sendArr, 0, $capacity);
+
+           
+            // call the send message class
+            // $sendNow = 'ooo';
+            $sendNow = $this->sendMessage->sendMulti($sendArr, $message->content);
             $messageContact = new MessageContact;
 
             $messageContact->message_id = $message->id;
             $messageContact->contact_id = $request->contacts?$contact:$contact->id;
             $messageContact->status = '1';
             $messageContact->gateway_ref = $gatewayMsgRef;
+            $message->sent_at = time();
             $messageContact->save();
 
             $message->status = '1';
             $message->save();
+
+            Session(['msg'=>'sending in progress', 'alert'=>'success']);
+            return json_encode(['status'=>'success', 'message_status'=>'sending in progress', 'msg_slug'=>$message->slug, 'response'=>$sendNow]);
+
         }
 
         if ($request->contacts){
-            foreach($request->contacts as $contact){
-       
+            $unitCount = floor(Auth::user()->units->sum('available_units'));
+            $sendArr = [];
+            foreach($request->contacts as $contact_id){
+                $contact = Contact::where('id', $contact_id)->first();
+                $numArr = explode(',', $contact->numbers);
+                $numberCount = count($numArr);
+                $requiredUnits  = $numberCount * $pageCount;
+                $capacity = $unitCount/$pageCount;
+                if ($requiredUnits>$unitCount) {
+                    $pushNum = array_slice($numArr, 0, $capacity);
+                    $sendArr = array_merge($pushNum, $sendArr);
+                    break;
+                }else{
+                    array_push($sendArr, $numArr);
+                    $unitCount = $unitCount - $requiredUnits;
+                }
+               
                 $message = Message::where('slug', $this->clean->sanitizeInput($request->slug))->first();
 
+               
                 $messageContact = new MessageContact;
 
                 $messageContact->message_id = $message->id;
@@ -96,9 +160,14 @@ class SmsController extends Controller
                 $message->status = '1';
                 $message->save();
             }
+
+
+            return $sendArr;
+
+             // call the send message class
+            $sendNow = $this->sendMessage->sendMulti($sendArr, $message->content);
         }
-        Session(['msg'=>'sending in progress', 'alert'=>'success']);
-        return json_encode(['status'=>'success', 'message_status'=>'sending in progress', 'msg_slug'=>$message->slug]);
+        
 
     }
 
@@ -197,6 +266,7 @@ class SmsController extends Controller
             }
             
         }
+        
         $fulldate = $this->clean->sanitizeInput($request->fulldate);
         $message = Message::where('slug', $this->clean->sanitizeInput($request->slug))->first();
         $time = strtotime($this->clean->sanitizeInput($request->fulldate));

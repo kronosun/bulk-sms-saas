@@ -169,10 +169,14 @@
 							success:function(response){
 								let feedback = JSON.parse(response);
 								if (feedback.status == 'success') {
-									window.location.replace("{{ route('sent-sms') }}");
+									console.log(response);
+									return;
 
+								}else{
+									console.log(response);
+									return;
 								}
-								console.log(response);
+								
 								 // $('#message-slug').val(response);
 							}
 						});

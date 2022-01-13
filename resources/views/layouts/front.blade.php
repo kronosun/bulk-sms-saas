@@ -139,7 +139,7 @@
                         <!-- Logo -->
                         <div class="col-xl-2 col-lg-2 col-10 form-inline">
                             <div class="logo">
-                                <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
+                                <a href="{{ url('/') }}"><img src="assets/img/logo/logo.png" alt=""></a>
                             </div>
                             <div class="d-block d-lg-none mobile-auth ml-auto">
                                 
@@ -154,7 +154,7 @@
                             <div class="main-menu f-right d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">    
-                                        <li class="active"><a href="index.html"> Home</a></li>
+                                        <li class="active"><a href="{{ url('/') }}"> Home</a></li>
                                         <li><a href="feature.html">Feature</a></li>
                                         <li><a href="services.html">Services</a></li>
                                         <li><a href="pricing.html">Pricing</a></li>
@@ -199,7 +199,7 @@
                          <div class="single-footer-caption mb-30">
                               <!-- logo -->
                              <div class="footer-logo">
-                                 <a href="index.html"><img src="assets/img/logo/logo.png" alt="" width="100"></a>
+                                 <a href="{{ url('/') }}"><img src="assets/img/logo/logo.png" alt="" width="100"></a>
                              </div>
                              <div class="footer-tittle">
                                  <div class="footer-pera">
@@ -263,9 +263,11 @@
                 <div class="row align-items-center">
                     <div class="col-xl-12 ">
                         <div class="footer-copy-right">
-                           <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | powered by <a href="#" target="_blank"><img src="assets/img/logo/logo.png" alt="" width="80"></a>  template by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                           <p>
+                               <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | powered by <a href="#" target="_blank"><img src="assets/img/logo/logo.png" alt="" width="80"></a>  template by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </p>
                         </div>
                     </div>
                 </div>
