@@ -9,11 +9,13 @@
                     <div class="col-md-4">
                         <img src="{{ asset('dashboard/vendors/images/banner-img.png') }}" alt="">
                     </div>
-                    <div class="col-md-8">
-                        <h4 class="font-20 weight-500 mb-10 text-capitalize">
-                            Welcome back <div class="weight-600 font-30 text-blue">{{ Auth::user()->username }}!</div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-7 welcome-note">
+                        <h4 class="font-20 weight-500 mb-10 text-capitalize mt-3 mt-md-0">
+                            Welcome back <span class="weight-600 font-30 text-blue">{{ Auth::user()->username }}!</span>
                         </h4>
-                        <p class="font-18 max-width-600">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde hic non repellendus debitis iure, doloremque assumenda. Autem modi, corrupti, nobis ea iure fugiat, veniam non quaerat mollitia animi error corporis.</p>
+                        <p class="font-18 max-width-600">Please protect your login details and feel free to customise your dashboard to suit you.</p>
+                        <p>Always remember to check your unit balance (available units) before sending a message. Insufficient balance? <a href="{{ route('buy-unit') }}"><strong>buy here</strong></a></p>
                     </div>
                 </div>
             </div>
@@ -96,7 +98,7 @@
                             </div>
                             <div class="dash-widget-info">
                                 
-                                <h6 class="text-muted">Pending Schedule</h6>
+                                <h6 class="text-muted">Pending Schedules</h6>
                                 <div class="progress progress-sm">
                                     <div class="progress-bar bg-brand-3 w-100"></div>
                                 </div>
@@ -105,7 +107,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-xl-8 mb-30">
                     <div class="card-box height-100-p pd-20">
                         <h2 class="h4 mb-20">Activity</h2>
@@ -174,7 +176,7 @@
                         <div id="chart" class="chart"></div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 
@@ -290,5 +292,7 @@
         .progress{
             margin-top: 5px;
         }
+
+        
     </style>
 @endsection

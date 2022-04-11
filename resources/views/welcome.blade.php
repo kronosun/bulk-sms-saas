@@ -1,7 +1,26 @@
 @extends('layouts.front')
 @section('title', env('APP_NAME'))
 @section('content')
-    
+    <style>
+        
+
+        .hero__caption h2{
+            font-size: 25px;
+            margin-top: -10px;
+        }
+
+        @media(min-width: 1200px){
+            .what-to-find-title{
+                margin-top: -100px!important
+            }
+        }
+
+        /* @media(max-width: 768px){
+            .hero-title{
+                font-size:10px!important;
+            }
+        } */
+    </style>
     <!-- Slider Area Start-->
         <div class="slider-area">
             <div class="slider-active">
@@ -10,13 +29,13 @@
                         <div class="row d-flex align-items-center">
                             <div class="col-sm-6 hero-row">
                                 <div class="hero__caption">
-                                   
-                                    <h1 data-animation="fadeInUp" data-delay=".6s">Swift Bulk SMS Dispatch<br>With Skezzole</h1>
-                                    <p data-animation="fadeInUp" data-delay=".8s">Solved! 99.9% SMS delivery rate</p>
+                                   <h1 class="hero-title">Simple And <br> Affordable Bulk SMS  <br> For Marketing</h1>
+                                    <h2 data-animation="fadeInUp" data-delay=".6s">Send Bulk SMS In 6 Simple Steps</h2>
+                                    {{-- <p data-animation="fadeInUp" data-delay=".8s">Send a bulk SMS to a wide range of Contacts without cutting out any and have them all delivered in minutes.</p> --}}
                                     <!-- Slider btn -->
                                    <div class="slider-btns">
                                         <!-- Hero-btn -->
-                                        <a data-animation="fadeInLeft" data-delay="1.0s" href="{{ route('login') }}" class="btn radius-btn">Get started</a>
+                                        <a data-animation="fadeInLeft" data-delay="1.0s" href="{{ route('register') }}" class="btn radius-btn">Get started</a>
                                         <!-- Video Btn -->
                                         {{-- <a data-animation="fadeInRight" data-delay="1.0s" class="popup-video video-btn ani-btn" href="https://www.youtube.com/watch?v=1aP-TXUpNoU"><i class="fas fa-play"></i></a> --}}
                                    </div>
@@ -64,10 +83,10 @@
                 <div class="row justify-content-end">
                     <div class="col-xl-8 col-lg-10">
                         <!-- Section Tittle -->
-                        <div class="row">
+                        <div class="row" id="features">
                             <div class="col-lg-10 col-md-10">
                                 <div class="section-tittle">
-                                    <h2 class="text-center">What to find here!</h2>
+                                    <h2 class="text-center what-to-find-title">What to find here!</h2>
                                 </div>
                             </div>
                         </div>
@@ -79,8 +98,8 @@
                                         <span><i class="fa fa-paper-plane"></i></span>
                                     </div>
                                     <div class="features-caption">
-                                        <h3>High Delivery Rate</h3>
-                                        <p>Our SMS is reliable and quick.</p>
+                                        <h3>SMS SCHEDULING</h3>
+                                        <p>Skezzole offers you a flexible and robust feature that enables you to compose, your bulk SMS message(s) ahead of time and have it sent automatically at any time of your choice, </p>
                                     </div>
                                 </div>
                             </div>
@@ -90,8 +109,8 @@
                                         <span><i class="fa fa-thumbs-up"></i></span>
                                     </div>
                                     <div class="features-caption">
-                                        <h3>Affordable Cost</h3>
-                                        <p>You can send SMS as low as 99.9Kobo/sms</p>
+                                        <h3>COMPREHENSIVE SMS HISTORY</h3>
+                                        <p>As a part of our transparency policy, Skezzole provides you with a comprehensive archive of bulk SMS sent and the corresponding bulk SMS units purchased over time.</p>
                                     </div>
                                 </div>
                             </div> 
@@ -101,8 +120,8 @@
                                         <span><i class="fa fa-headphones"></i></span>
                                     </div>
                                     <div class="features-caption">
-                                        <h3>Customer Support</h3>
-                                        <p>We offer 24/7 customer support. Our livechat and email channels are always open.</p>
+                                        <h3>FLEXIBLE CONTACT INPUT OPTIONS</h3>
+                                        <p>Skezzole has a built-in feature that will enable you to either save and group a contact forehand and click on them as existing contacts during the send time or upload a CSV file containing the contacts.</p>
                                     </div>
                                 </div>
                             </div>
@@ -112,8 +131,8 @@
                                         <span><i class="fa fa-undo"></i></span>
                                     </div>
                                     <div class="features-caption">
-                                        <h3>Refund Policy</h3>
-                                        <p>We have a customer friendly refund policy. See more <a href="#" class="text-primary">here</a>.</p>
+                                        <h3>TWO WAY UNIT-PRICE CALCULATOR</h3>
+                                        <p>We have made it easy for you by plugging in a real-time two-way unit into a unit-price calculator. This means that if you input any number of units, the cost in NGN will be automatically calculated and displayed.</p>
                                     </div>
                                 </div>
                             </div>
@@ -122,7 +141,8 @@
                 </div>
             </div>
             <!-- Shpe -->
-            <div class="features-shpae d-none d-lg-block">
+            <div class="features-shpae d-none d-lg-block" style="padding-top: 150px!important">
+                {{-- <br><br><br><br> --}}
                 <img src="assets/img/hero/slide_1.png" alt="" height="400" class="rounded-circle" style="object-fit: cover;">
             </div>
         </section>
@@ -147,7 +167,7 @@
                             </div> 
                             <div class="service-cap">
                                 <h4><a href="#">SMS API</a></h4>
-                                <p>Easily integrate our sms api to your application.</p>
+                                <p>Easily integrate our SMS API into your application.</p>
                             </div>
                         </div>
                     </div>
@@ -158,18 +178,18 @@
                             </div> 
                             <div class="service-cap">
                                 <h4><a href="#">SMS personalization</a></h4>
-                                <p>You can personalize your sms to specify names of recipients.</p>
+                                <p>Uniquely address your recipients by their names.</p>
                             </div>
                         </div>
                     </div> 
                     <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="services-caption text-center mb-30">
                             <div class="service-icon">
-                                 <span> <i class="fa fa-users"></i></span>
+                                 <span> <i class="fa fa-file"></i></span>
                             </div> 
                             <div class="service-cap">
-                                <h4><a href="#">Referral Programs</a></h4>
-                                <p>You can earn as much as you can by referring friends.</p>
+                                <h4><a href="#">SMS Template</a></h4>
+                                <p>Varieties of customisable sms templates for you.</p>
                             </div>
                         </div>
                     </div>
@@ -216,7 +236,7 @@
         <section class="best-pricing pricing-padding" data-background="assets/img/gallery/best_pricingbg.jpg">
             <div class="container">
                 <!-- Section Tittle -->
-                <div class="row d-flex justify-content-center">
+                <div class="row d-flex justify-content-center" id="pricing">
                     <div class="col-lg-6 col-md-8">
                         <div class="section-tittle section-tittle2 text-center">
                             <h2>Choose Your Suitable Plan.</h2>
@@ -293,7 +313,7 @@
                     <div class="row d-flex justify-content-center">
                         <div class="col-xl-8">
                             <div class="section-tittle text-center">
-                                <h2>Testimonials from <br>our beta users</h2>
+                                <h2>Hear what our customers <br> are saying about us </h2>
                             </div>
                         </div>
                     </div>

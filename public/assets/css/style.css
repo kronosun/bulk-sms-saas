@@ -4573,7 +4573,7 @@ del {
     margin-bottom: 20px;
 }
 .slider-area .hero__caption h1 {
-    font-size: 65px;
+    font-size: 55px;
     font-weight: 700;
     color: #1D2840;
     font-family: "Nunito", sans-serif;
@@ -4594,8 +4594,10 @@ del {
 }
 @media (max-width: 767px) {
     .slider-area .hero__caption h1 {
-        font-size: 29px;
-        line-height: 1.4;
+        margin-top: 30px!important;
+        font-size: 2em!important;
+        line-height: 1!important;
+        font-weight: 700!important;
     }
 }
 .slider-area .hero__caption p {

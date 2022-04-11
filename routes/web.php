@@ -50,7 +50,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/delete-schedule', 'SmsController@deleteScheduled')->name('delete-schedule');
         });
 
-         Route::group(['prefix' => 'contacts'], function () {
+        Route::group(['prefix' => 'contacts'], function () {
             Route::get('/', 'ContactController@index')->name('contacts');
             Route::get('/create', 'ContactController@create')->name('create-contact');
             Route::post('/save', 'ContactController@save')->name('save-contact');

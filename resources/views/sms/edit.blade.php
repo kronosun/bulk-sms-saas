@@ -26,7 +26,7 @@
 					<div class="clearfix">
 						<div class="pull-left">
 							<h4 class="text-blue h4">Edit message</h4>
-							<p class="mb-30">Your message is saved automaticaly as you type</p>
+							<p class="mb-30">Your message is saved automatically as you type</p>
 						</div>
 					
 					</div>
@@ -51,7 +51,7 @@
 								<select class="form-control" id="send-option">
 									<option selected disabled value="">Select One</option>
 									<option value="existing" >Existing contacts</option>
-									<option value="upload">Upload new contacts</option>
+									{{-- <option value="upload">Upload new contacts</option> --}}
 									<option value="manual_input">Manualy input contacts</option>
 								</select>
 								<p class="text-danger" style="display: none;">This Field is Required</p>
@@ -312,7 +312,7 @@
 										url: "{{ route('send-composed-message') }}",
 										data: {
 											slug: msgSlug,
-											contacts: contacts,
+											contacts: cc,
 											_token: universal_token
 										},
 										success:function(response){
@@ -335,7 +335,7 @@
 								url: "{{ route('send-composed-message') }}",
 								data: {
 									slug: msgSlug,
-									contacts: contacts,
+									contacts: cc,
 									_token: universal_token
 								},
 								success:function(response){

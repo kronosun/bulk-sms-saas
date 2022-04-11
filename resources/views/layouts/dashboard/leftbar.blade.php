@@ -1,6 +1,6 @@
 <div class="left-side-bar">
 		<div class="brand-logo">
-			<a href="index.html">
+			<a href="{{ url('/') }}">
 				<img src="{{ asset('dashboard/vendors/images/logo.png') }}" alt="" class="dark-logo">
 				<img src="{{ asset('dashboard/vendors/images/logo-dark.png') }}" alt="" class="light-logo">
 			</a>
@@ -22,7 +22,7 @@
 						</a>
 						<ul class="submenu">
 							<li><a href="{{route('compose-sms')}}">Compose</a></li>
-							<li><a href="{{ route('scheduled-sms') }}">Schedule</a></li>
+							<li><a href="{{ route('scheduled-sms') }}">Scheduled</a></li>
 							<li><a href="{{ route('sent-sms') }}">Sent</a></li>
 							<li><a href="{{ route('draft') }}">Draft</a></li>
 						</ul>

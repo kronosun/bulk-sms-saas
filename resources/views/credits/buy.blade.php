@@ -53,7 +53,7 @@
                                                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#flutterwave-div" aria-expanded="true" aria-controls="flutterwave-div" style="background-color:transparent!important; border:1px solid transparent;">
                                                   <label>
                                                       <input type="radio" name="test" value="big">
-                                                        <img src="http://localhost/consult/assets/img/flutterwave.png" width="150">
+                                                        <img src="{{ asset('assets/img/payment') }}/flutterwave.png" width="150">
                                                     </label>
                                                 </button>
                                               </h2>
@@ -75,10 +75,10 @@
                                                   <label class="text-dark">
                                                       <input type="radio" name="test" value="small">
                                                         Credit & Debit Cards 
-                                                        <img src="http://localhost/quicklatest/front_assets/media/visa-icon.png" class="mr-2">
-                                                        <img src="http://localhost/quicklatest/front_assets/media/master-icon.png" class="mr-2">
-                                                        <img src="http://localhost/quicklatest/front_assets/media/amex.png" height="43">
-                                                        <img src="http://localhost/quicklatest/front_assets/media/discover.jpg" height="52">
+                                                        <img src="{{ asset('assets/img/payment') }}/visa-icon.png" class="mr-2">
+                                                        <img src="{{ asset('assets/img/payment') }}/master-icon.png" class="mr-2">
+                                                        <img src="{{ asset('assets/img/payment') }}/amex.png" height="43">
+                                                        <img src="{{ asset('assets/img/payment') }}/discover.jpg" height="52">
                                                     </label>
                                                 </button>
                                               </h2>

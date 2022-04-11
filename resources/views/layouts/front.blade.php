@@ -77,9 +77,9 @@
                         margin-top: 100px!important;
                     }
 
-                    .hero__caption h1{
+                    /* .hero__caption h1{
                         font-size: 35px!important;
-                    }
+                    } */
 
                     .hero__img img{
                         width: 400px!important;
@@ -108,9 +108,12 @@
                         font-size: 35px;
                         margin-bottom: 45px!important;
                     }
-                 }
 
-                
+                    /* .hero__caption h1{
+                        font-size: 25px!important;
+                        font-weight: 600!important;
+                    } */
+                 }
 
             </style>
    </head>
@@ -155,16 +158,15 @@
                                 <nav>
                                     <ul id="navigation">    
                                         <li class="active"><a href="{{ url('/') }}"> Home</a></li>
-                                        <li><a href="feature.html">Feature</a></li>
-                                        <li><a href="services.html">Services</a></li>
-                                        <li><a href="pricing.html">Pricing</a></li>
-                                        <li><a href="#">Pages</a>
+                                        <li><a href="#features">Feature</a></li>
+                                        <li><a href="#pricing">Pricing</a></li>
+                                        {{-- <li><a href="#">Pages</a>
                                             <ul class="submenu">
                                                 <li><a href="blog.html">Blog</a></li>
                                                 <li><a href="single-blog.html">Blog Details</a></li>
                                                 <li><a href="elements.html">Element</a></li>
                                             </ul>
-                                        </li>
+                                        </li> --}}
                                         <li><a href="{{ route('login') }}" class="my-btn">Login</a></li>
                                     </ul>
                                 </nav>
@@ -203,7 +205,7 @@
                              </div>
                              <div class="footer-tittle">
                                  <div class="footer-pera">
-                                     <p class="info1">Skezzole is your present day solution for sms "wahala". </p>
+                                     <p class="info1">Send a bulk SMS to a wide range of Contacts without cutting out any and have them all delivered in minutes. </p>
                                 </div>
                              </div>
                          </div>
