@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Payment;
-use App\Custom\SanitizeInput;
+
 use App\Custom\Generic;
 use App\UnitPurchase;
 use Auth;
@@ -13,7 +13,7 @@ class PaymentController extends Controller
 {   
 
     function __construct(){
-        $this->clean = new SanitizeInput;
+        
         $this->generic = new Generic;
     }
 
@@ -22,11 +22,11 @@ class PaymentController extends Controller
 
         $payment->user_id = Auth::user()->id;
         $payment->reference = \Str::random(15).time();
-        $payment->amount = (float)$this->clean->sanitizeInput($request->amount);
-        $payment->usd_value = (float)$this->clean->sanitizeInput($request->amount)/500;
-        $payment->description = $this->clean->sanitizeInput($request->description);
-        $payment->currency = $this->clean->sanitizeInput($request->currency);
-        $payment->gateway = $this->clean->sanitizeInput($request->gateway);
+        $payment->amount = (float)clean($request->amount);
+        $payment->usd_value = (float)clean($request->amount)/500;
+        $payment->description = clean($request->description);
+        $payment->currency = clean($request->currency);
+        $payment->gateway = clean($request->gateway);
         $payment->status = 'pending';
         $payment->paid_on = time();
         $payment->save();

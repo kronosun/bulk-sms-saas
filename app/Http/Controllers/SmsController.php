@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Message;
 use Str;
-use App\Custom\SanitizeInput;
+
 use Auth;
 use App\Contact;
 use App\MessageContact;
@@ -16,7 +16,7 @@ use App\Custom\SendMessage;
 class SmsController extends Controller
 {
     function __construct(){
-        $this->clean = new SanitizeInput;
+        
         $this->sendMessage = new SendMessage;
     }
 
@@ -24,8 +24,8 @@ class SmsController extends Controller
         $message = new Message;
         $message->slug = Str::random(30);
         $message->user_id= Auth::user()->id;
-        // $message->title= $this->clean->sanitizeInput($request->title);
-        // $message->content= $this->clean->sanitizeInput($request->content);
+        // $message->title= clean($request->title);
+        // $message->content= clean($request->content);
         
         $message->save();
         return redirect()->route('edit-message', $message->slug);
@@ -37,10 +37,10 @@ class SmsController extends Controller
             $message->slug = Str::random(30);
             $message->user_id= Auth::user()->id;
         }else{
-            $message = Message::where('slug', $this->clean->sanitizeInput($request->slug))->first();
+            $message = Message::where('slug', clean($request->slug))->first();
         }
-        $message->title= $this->clean->sanitizeInput($request->title);
-        $message->content= $this->clean->sanitizeInput($request->content);
+        $message->title= clean($request->title);
+        $message->content= clean($request->content);
         
         $message->save();
         return $message->slug;
@@ -49,7 +49,7 @@ class SmsController extends Controller
 
     public function sendComposed(Request $request){
        
-        $msgSlug = $this->clean->sanitizeInput($request->slug);
+        $msgSlug = clean($request->slug);
 
         $message = Message::where('slug', $msgSlug)->first();
 
@@ -73,7 +73,7 @@ class SmsController extends Controller
         $gatewayMsgRef =Str::random(10);
 
         if ($request->numbers) {
-            $numbers = $this->clean->sanitizeInput($request->numbers);
+            $numbers = clean($request->numbers);
             
             $title = 'Untitled '.Str::random(4);
             // save numbers first
@@ -186,7 +186,7 @@ class SmsController extends Controller
                // echo $unitsToDeduct;
 
                
-                $message = Message::where('slug', $this->clean->sanitizeInput($request->slug))->first();
+                $message = Message::where('slug', clean($request->slug))->first();
 
                
                 $messageContact = new MessageContact;
@@ -221,12 +221,12 @@ class SmsController extends Controller
     }
 
     public function feedback(Request $request){
-        $status = $this->clean->sanitizeInput($request->status);
-        $feedbackMessage = $this->clean->sanitizeInput($request->feedbackMessage);
+        $status = clean($request->status);
+        $feedbackMessage = clean($request->feedbackMessage);
 
-        $messageContacts = MessageContact::where('gateway_ref', $this->clean->sanitizeInput($request->gateway_ref))->get();
+        $messageContacts = MessageContact::where('gateway_ref', clean($request->gateway_ref))->get();
         
-        // $message = $message = Message::where('gateway_ref', $this->clean->sanitizeInput($request->gateway_ref))->first();
+        // $message = $message = Message::where('gateway_ref', clean($request->gateway_ref))->first();
         $sentArray=[];
         $failedArr = [];
         // lop to get the message_contact instances 
@@ -291,14 +291,14 @@ class SmsController extends Controller
     }
     public function edit(Request $request){
         if ($request->action) {
-            $data['action']=$this->clean->sanitizeInput($request->action);
+            $data['action']=clean($request->action);
         }
-        $message = $data['message'] = Message::where('slug', $this->clean->sanitizeInput($request->slug))->first();
+        $message = $data['message'] = Message::where('slug', clean($request->slug))->first();
         return view('sms.edit')->with($data);
     }
 
     public function delete(Request $request){
-        $message = Message::where('slug', $this->clean->sanitizeInput($request->message_slug))->first();
+        $message = Message::where('slug', clean($request->message_slug))->first();
         if (is_null($message)) {
              return json_encode(['status'=>'fail', 'msg'=>'Message not found', 'alert'=>'warning']);
         }else{
@@ -310,15 +310,15 @@ class SmsController extends Controller
 
     public function schedule(Request $request){
          if ($request->action) {
-            if ($this->clean->sanitizeInput($request->action)=='modify_schedule') {
-                MessageSchedule::where('message_id', $this->clean->sanitizeInput($request->msgId))->delete();
+            if (clean($request->action)=='modify_schedule') {
+                MessageSchedule::where('message_id', clean($request->msgId))->delete();
             }
             
         }
         
-        $fulldate = $this->clean->sanitizeInput($request->fulldate);
-        $message = Message::where('slug', $this->clean->sanitizeInput($request->slug))->first();
-        $time = strtotime($this->clean->sanitizeInput($request->fulldate));
+        $fulldate = clean($request->fulldate);
+        $message = Message::where('slug', clean($request->slug))->first();
+        $time = strtotime(clean($request->fulldate));
         if ($request->contacts){
             foreach($request->contacts as $contact){
                 $schedule = new MessageSchedule;
@@ -329,7 +329,7 @@ class SmsController extends Controller
             }
         }
         if ($request->numbers) {
-            $numbers = $this->clean->sanitizeInput($request->numbers);
+            $numbers = clean($request->numbers);
             
 
            
@@ -364,12 +364,12 @@ class SmsController extends Controller
     }
 
     public function deleteScheduled(Request $request){
-        $schedule = MessageSchedule::where('message_id', $this->clean->sanitizeInput($request->message_id))->first();
+        $schedule = MessageSchedule::where('message_id', clean($request->message_id))->first();
         if (is_null($schedule)) {
             return json_encode(['status'=>'fail', 'msg'=>'Schedule not found', 'alert'=>'warning']);
         }else{
-            $message = Message::where('id', $this->clean->sanitizeInput($request->message_id))->first();
-            MessageSchedule::where('message_id', $this->clean->sanitizeInput($request->message_id))->delete();
+            $message = Message::where('id', clean($request->message_id))->first();
+            MessageSchedule::where('message_id', clean($request->message_id))->delete();
             $message->status = '5';
             $message->save();
             return json_encode(['status'=>'success', 'msg'=>'Schedule Cancelled', 'alert'=>'success']);

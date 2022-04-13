@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Contact;
 use Str;
-use App\Custom\SanitizeInput;
+
 use Auth;
 use Storage;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +15,7 @@ use App\UploadedContact;
 class ContactController extends Controller
 {
     function __construct(){
-        $this->clean = new SanitizeInput;
+        
     }
 
     function index(){
@@ -33,7 +33,7 @@ class ContactController extends Controller
             'numbers'=>'required'
         ]);
 
-        $numbers = $this->clean->sanitizeInput($request->numbers);
+        $numbers = clean($request->numbers);
         $numArr = explode(',', $numbers);
 
             foreach ($numArr as $key => $num) {
@@ -52,9 +52,9 @@ class ContactController extends Controller
         // dd($request);
         $contact = new Contact;
         $contact->numbers = implode(',', $numArr);
-        $contact->title = $this->clean->sanitizeInput($request->title);
-        // $contact->numbers = $this->clean->sanitizeInput($request->numbers);
-        $contact->slug =str_replace(' ', '_',  $this->clean->sanitizeInput($request->title)).'_'.Str::random(12);
+        $contact->title = clean($request->title);
+        // $contact->numbers = clean($request->numbers);
+        $contact->slug =str_replace(' ', '_',  clean($request->title)).'_'.Str::random(12);
         $contact->user_id = Auth::user()->id;
         $contact->save();
 
@@ -111,13 +111,13 @@ class ContactController extends Controller
         $request->validate([
             'number'=>'required'
         ]);
-        $contact_id = $this->clean->sanitizeInput($request->contact_id);
-        $oldNumber = $this->clean->sanitizeInput($request->old_number);
-        $newNumber = $this->clean->sanitizeInput($request->number);
+        $contact_id = clean($request->contact_id);
+        $oldNumber = clean($request->old_number);
+        $newNumber = clean($request->number);
         $contact = Contact::where('id', $contact_id)->first();
         if ($request->name) {
 
-            $newName = $this->clean->sanitizeInput($request->name);
+            $newName = clean($request->name);
         }
         $explodeContact = explode(',', $contact->numbers);
         // dd($oldNumber);
@@ -147,8 +147,8 @@ class ContactController extends Controller
 
 
     function deleteNumber(Request $request){
-        $contact_id = $this->clean->sanitizeInput($request->contact_id);
-        $oldNumber = $this->clean->sanitizeInput($request->number);
+        $contact_id = clean($request->contact_id);
+        $oldNumber = clean($request->number);
         $contact = Contact::where('id', $contact_id)->first();
         $explodeContact = explode(',', $contact->numbers);
         // dd($oldNumber);
@@ -174,11 +174,11 @@ class ContactController extends Controller
             'contact_slug'=>'required',
             'title'=>'required'
         ]);
-        $contact = Contact::where('slug', $this->clean->sanitizeInput($request->contact_slug))->first();
+        $contact = Contact::where('slug', clean($request->contact_slug))->first();
         if (is_null($contact)) {
            die('invalid resource');
         }else{
-            $title = $this->clean->sanitizeInput($request->title);
+            $title = clean($request->title);
             $contact->title = $title;
             $contact->save();
             Session(['msg'=>'Successful', 'alert'=>'success']);
@@ -193,8 +193,8 @@ class ContactController extends Controller
             'numbers'=>'required'
         ]);
         // dd($request);
-        $contact = Contact::where('slug', $this->clean->sanitizeInput($request->contact_slug))->first();
-        $newNumbers = $this->clean->sanitizeInput($request->numbers);
+        $contact = Contact::where('slug', clean($request->contact_slug))->first();
+        $newNumbers = clean($request->numbers);
         
         $oldNumbers = $contact->numbers;
 
@@ -213,7 +213,7 @@ class ContactController extends Controller
         $request->validate([
             'contact_slug'=>'required',
         ]);
-        $contact = Contact::where('slug', $this->clean->sanitizeInput($request->contact_slug))->delete();
+        $contact = Contact::where('slug', clean($request->contact_slug))->delete();
         
         Session(['msg'=>'Deleted', 'alert'=>'success']);
         return redirect()->route('contacts');
@@ -234,9 +234,9 @@ class ContactController extends Controller
         $savecontact = $contact->storeAs('public/contacts', $contactToDb);
 
         $newContact = new Contact;
-        $newContact->title = $this->clean->sanitizeInput($request->title);
+        $newContact->title = clean($request->title);
         $newContact->file = $contactToDb;
-        $newContact->slug =str_replace(' ', '_',  $this->clean->sanitizeInput($request->title)).'_'.Str::random(12);
+        $newContact->slug =str_replace(' ', '_',  clean($request->title)).'_'.Str::random(12);
         $newContact->user_id = Auth::user()->id;
 
         $newContact->save();
@@ -301,8 +301,8 @@ class ContactController extends Controller
         ]);
 
         Session([
-            'old_phone_column'=>$this->clean->sanitizeInput($request->old_name),
-            'phone_index'=>$this->clean->sanitizeInput($request->index),
+            'old_phone_column'=>clean($request->old_name),
+            'phone_index'=>clean($request->index),
             'msg'=>'One more step (optional).', 
             'alert'=>'success'
         ]);
@@ -310,7 +310,7 @@ class ContactController extends Controller
         return redirect()->back();
 
 
-        // $contact = Contact::where('slug', $this->clean->sanitizeInput($request->slug))->first();
+        // $contact = Contact::where('slug', clean($request->slug))->first();
         // $filePath = public_path('storage/contacts/' .$contact->file);
         //     // Reading file
         //     $file = fopen($filePath, "r");
@@ -346,11 +346,11 @@ class ContactController extends Controller
 
          // Session(['headRow'=>$headRow, 'body'=>$bodyRow]);
         // Get contact instance on DB
-        $contact = Contact::where('slug', $this->clean->sanitizeInput($request->contact_slug))->first();
+        $contact = Contact::where('slug', clean($request->contact_slug))->first();
         // get the formal name of the column being renamed to "Name"
-        $oldNameColumn = $this->clean->sanitizeInput($request->old_name);
+        $oldNameColumn = clean($request->old_name);
         // Get the array index of the column being renamed to "Name"
-        $nameIndex = $this->clean->sanitizeInput($request->index);
+        $nameIndex = clean($request->index);
         // Initiate an array variabke to carry phone numbers
         $numberArr = [];
         // Initiate an array variabke to carry contact names
@@ -390,7 +390,7 @@ class ContactController extends Controller
        
          // Session(['headRow'=>$headRow, 'body'=>$bodyRow]);
         // Get contact instance on DB
-        $contact = Contact::where('slug', $this->clean->sanitizeInput($request->slug))->first();
+        $contact = Contact::where('slug', clean($request->slug))->first();
         
         
         // Initiate an array variabke to carry phone numbers

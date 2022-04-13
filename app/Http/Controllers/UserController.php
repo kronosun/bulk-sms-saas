@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 use App\Mail\UserRegisterMail;
 use Mail;
 use Auth;
-use App\Custom\SanitizeInput;
+
 use App\User;
 
 class UserController extends Controller
 {
 
     function __construct(){
-        $this->clean = new SanitizeInput;
+        
     }
     // public function emailVerification(){
     //     return view('auth.verify_email');
@@ -32,8 +32,8 @@ class UserController extends Controller
         if (!$request->email || !$request->code) {
            die('invalid verification link');
         }
-        $email = $this->clean->sanitizeInput($request->email);
-        $code  = $this->clean->sanitizeInput($request->code);
+        $email = clean($request->email);
+        $code  = clean($request->code);
         $user = User::where(['email'=>$email, 'verification_code'=>$code])->first();
         if (is_null($user)) {
             die('invalid verification link');
