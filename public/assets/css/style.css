@@ -4401,6 +4401,9 @@ del {
     width: 0;
     transition: 0.3s;
 }
+#nav-btn::before{
+  background: transparent;   
+}
 .main-header .main-menu ul li:hover > a::before {
     width: 100%;
 }

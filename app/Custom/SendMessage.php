@@ -12,26 +12,33 @@
 
 			// return $units;
 			$this->deductTime($units, $user_id);
-			return 'done';
 			
-	        // $response = InfobipSms::send($array, $message);
-	        // return $response;
+			
+	        $response = InfobipSms::send($array, $message);
+	        return $response;
+	        // return 'done';
 	    }
 
 
 		function deductTime($units, $user_id){
+			// dd($units);
 			// while ($balance > 0) {
 			    $availableUnits = UnitPurchase::where('user_id', $user_id)->where('available_units', '>', '0')->first();
-			    if ($availableUnits >= $units) {
-			    	$availableUnitBal = $availableUnits - $units;
+			    
+			    if ($availableUnits->available_units >= $units) {
+			    	// dd('yes');
+			    	$availableUnitBal = $availableUnits->available_units - $units;
 			    	$availableUnits->available_units = $availableUnitBal;
 			    	$unitBal = 0;
 			    	$availableUnits->save();
+			    	return;
 			    }else{
+			    	// dd($availableUnits->available_units);
 			    	$availableUnitBal =  0;
 			    	$unitBal = $units - $availableUnits->available_units;
+			    	$availableUnits->available_units = $availableUnitBal;
 			    	$availableUnits->save();
-			    	$this->deductTime($unitBal, $user_id)
+			    	$this->deductTime($unitBal, $user_id);
 			    }
 			    
 

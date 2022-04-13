@@ -167,7 +167,7 @@
                                                 <li><a href="elements.html">Element</a></li>
                                             </ul>
                                         </li> --}}
-                                        <li><a href="{{ route('login') }}" class="my-btn">Login</a></li>
+                                        <li><a href="{{ route('login') }}" class="my-btn" id="nav-btn">Login</a></li>
                                     </ul>
                                 </nav>
                             </div>

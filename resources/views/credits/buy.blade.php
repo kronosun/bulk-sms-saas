@@ -73,12 +73,9 @@
                                               <h2 class="mb-0">
                                                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#credit-card-div" aria-expanded="false" aria-controls="credit-card-div" style="background-color:transparent!important; border:1px solid transparent;">
                                                   <label class="text-dark">
-                                                      <input type="radio" name="test" value="small">
-                                                        Credit & Debit Cards 
-                                                        <img src="{{ asset('assets/img/payment') }}/visa-icon.png" class="mr-2">
-                                                        <img src="{{ asset('assets/img/payment') }}/master-icon.png" class="mr-2">
-                                                        <img src="{{ asset('assets/img/payment') }}/amex.png" height="43">
-                                                        <img src="{{ asset('assets/img/payment') }}/discover.jpg" height="52">
+                                                      <input type="radio" name="test" value="small"> Credit & Debit Cards
+
+                                                        <img src="{{ asset('assets/img/payment/credit-card-payments.png') }}" class="mr-2" height="70">
                                                     </label>
                                                 </button>
                                               </h2>
@@ -463,10 +460,10 @@ const ravePubKey = "{{ env('RAVE_PUB_KEY') }}";
                                     type:'POST',
                                     url: "{{ route('update-payment') }}",
                                     data:{
-                                        reference:response.data.tx.txRef,
-                                        id:response.data.tx.id,
-                                        amount: response.data.tx.amount,
-                                        payResponse: response.tx,
+                                        reference:response.data.transactionobject.txRef,
+                                        id:response.data.transactionobject.id,
+                                        amount: response.data.transactionobject.amount,
+                                        payResponse: response.data.transactionobject,
                                         _token: universal_token
                                     },
                                     success:function(updateData){
@@ -483,7 +480,7 @@ const ravePubKey = "{{ env('RAVE_PUB_KEY') }}";
                                     },
                                 });
                             }else{
-                                alert('Something went wrong. It seems there is something wrong with your card. and try the following: <ul> <li> Check if your card is funded. If not, reload page, fund card and try again</li> <li>Try another card</li> <i>If Error Persists, Contact support with error code: JAV-002</i>');
+                                alert('Something went wrong. It seems there is something wrong with your card. and try the following: <ul> <li> Check if your card is funded. If not, reload page, fund card and try again</li> <li>Try another card</li> <i>If Error Persists, Contact support with error code: SK-002</i>');
                             }
                             
                         }
