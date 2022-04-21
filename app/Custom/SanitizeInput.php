@@ -56,7 +56,7 @@ class SanitizeInput
 			$input  = $this->cleanInput($input);
 		  $output = $this->escap_string($input);
 		}
-		return $input;
+		return $output;
 	}
 	
 	
