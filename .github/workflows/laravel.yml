@@ -18,7 +18,7 @@ jobs:
         server: srv76.naijadomains.com
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: /skezzole.com.ng/public_html/
+        server-dir: /public_html/
 
     - name: 📂 Run SSH Commands
       uses: appleboy/ssh-action@master
@@ -29,6 +29,6 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         script: |
 
-          cd skezzole.com.ng/public_html
+          cd public_html
 
           sh ./.scripts/deploy.sh
