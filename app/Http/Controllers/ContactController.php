@@ -156,6 +156,11 @@ class ContactController extends Controller
             // array_replace($oldNumber, $newNumber);
             $key = array_search($oldNumber, $explodeContact);
             unset($explodeContact[$key]);
+            if ($contact->names!='' && !is_null($contact->names)) {
+                $explodeNames = explode(',', $contact->names);
+                unset($explodeNames[$key]);
+                $contact->names = implode(',', $explodeNames);
+            }
             // dd($explodeContact);
             $contact->numbers = implode(',', $explodeContact);
             $contact->save();
@@ -192,14 +197,36 @@ class ContactController extends Controller
             'contact_slug'=>'required',
             'numbers'=>'required'
         ]);
+
+
         // dd($request);
         $contact = Contact::where('slug', clean($request->contact_slug))->first();
+
+        /*$newNumberArr = explode(',', $request->numbers);
+        $oldNumberArr = explode(',', $contact->numbers);
+        $intersection = array_intersect($newNumberArr, $oldNumberArr);
+        foreach($intersection as $key=>$int){
+            
+        }
+        // check if the number already exists in this contact list
+        if (in_array($intersection) {
+            Session(['msg'=>'This number'])
+            return redirect()->back();   
+        }*/
         $newNumbers = clean($request->numbers);
         
-        $oldNumbers = $contact->numbers;
+    
 
-        $numbersToSave  = array_merge(explode(',', $oldNumbers), explode(',', $newNumbers));
+        $numbersToSave  = array_merge(explode(',',  $contact->numbers), explode(',', $newNumbers));
         $contact->numbers = implode(',', $numbersToSave);
+        $numCount = count(explode(',', $newNumbers));
+        for ($i = 0; $i < $numCount; $i++) {
+            $names[$i] = str_replace(' ', '_', $contact->title).'_'.Str::random(4);
+
+        }
+        $namesToSave  = array_merge(explode(',',  $contact->names), $names);
+        $contact->names = implode(',', $namesToSave);
+
         // $contact->numbers = 
         $contact->save();
 

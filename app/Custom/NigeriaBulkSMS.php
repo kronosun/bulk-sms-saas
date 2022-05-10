@@ -4,7 +4,8 @@
 	 */
 	namespace App\Custom;
 
-	use App\Models\ApiIntegration;
+	use App\ApiIntegration;
+	use App\SmsLog;
 	
 	class NigeriaBulkSMS
 	{
@@ -13,10 +14,10 @@
 	     */
 	    public function __construct()
 	    {
-	        $this->$apiData = ApiIntegration::where('name', 'nigerian_bulk_sms')->first();
+	        $this->apiData = ApiIntegration::where('name', 'nigerian_bulk_sms')->first();
 	    }
 
-	    function send($arr, $msg){
+	    function send($arr, $msg, $msg_id){
 	    	$numbers = implode(',', $arr);
 			$curl = curl_init();
 
@@ -36,9 +37,12 @@
 	        $err = curl_error($curl);
 	        curl_close($curl);
 	        if ($err) {
-
 	            return $err;
 	        }else{
+	        	$log = new SmsLog;
+	        	$log->log = $response;
+	        	$log->message_id = $msg_id;
+	        	$log->save();
 	            return $response;
 	        }
 

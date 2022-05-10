@@ -43,7 +43,7 @@
 							<input type="hidden" id="message-slug" value="{{ $message->slug }}">
 						</div>
 						<div class="text-right">
-							<small class="form-text text-muted"><span id="char-count">30</span> characters (<span id="page-count">1</span> page).</small>
+							<small class="form-text text-muted"><span id="char-count">0</span> characters (<span id="page-count">1</span> page).</small>
 						</div>
 						<div class="row">
 							<div class="form-group col-6">
@@ -170,21 +170,26 @@
 			// when the send no button is clicked
 
 			$('#send-now').on('click', function(){
-
+				let oldHtml = $(this).html();
+				let $this = $(this);
+				$this.html('<i class="fa fa-spin fa-spinner"></i>')
 				let option = $('#send-option').val();
 				let msgContent = $('#message-content').val();
 				let msgTitle = $('#title').val();
 				if(msgTitle==''){
 					validate('#title');
+					$this.html(oldHtml)
 					return;
 				}
 				if(msgContent==''){
 					validate('#message-content');
+					$this.html(oldHtml)
 					return;
 				}
 				
 				if (option==null) {
 					validate('#send-option');
+					$this.html(oldHtml)
 					return;
 					
 				}
@@ -193,6 +198,7 @@
 				if (target.val()=='') {
 					// console.log()
 					validate('.'+option);
+					$this.html(oldHtml)
 					return
 				}else{
 
@@ -206,7 +212,7 @@
 						let requiredUnits = parseFloat(numSplit.length) * parseFloat(pcount);
 						let capacity = availableUnits/parseFloat(pcount);
 						if (requiredUnits > availableUnits) {
-
+							alert('hey')
 							swal({
 				                title: 'Insufficient Units?',
 				                text: "You only have "+availableUnits+" units but your message requires at least "+requiredUnits+" units to deliver to all numbers. If you want to continue, click proceed and we shall send your message to first "+Math.trunc(capacity)+" numbers only",
@@ -231,6 +237,7 @@
 											let feedback = JSON.parse(response);
 											if (feedback.status == 'success') {
 												console.log(feedback);
+												$this.html(oldHtml)
 												return;
 
 											}else{
@@ -241,13 +248,16 @@
 
 									            })
 												console.log(response);
+												$this.html(oldHtml)
 												return;
 											}
 										}
 									});
 				            	}
 				            })
+				            $this.html(oldHtml)
 						}else{
+
 							$.ajax({
 
 								type: 'POST',
@@ -261,15 +271,18 @@
 									let feedback = JSON.parse(response);
 									if (feedback.status == 'success') {
 										console.log(feedback);
+										$this.html(oldHtml)
 										return;
 
 									}else{
+										$this.html(oldHtml)
 										swal({
 							                title: feedback.status,
 							                text: feedback.msg,
 							                icon: feedback.alert,
 
 							            })
+							            $this.html(oldHtml)
 										console.log(response);
 										return;
 									}
@@ -320,15 +333,18 @@
 											if (feedback.status == 'success') {
 												window.location.replace("{{ route('sent-sms') }}");
 
+											}else{
+												alert('Something went wrong');
 											}
 											console.log(response);
 											 // $('#message-slug').val(response);
 										}
 									});
 								}
+								$this.html(oldHtml)
 							})
 						}else{
-							return;
+							// return;
 							$.ajax({
 
 								type: 'POST',
@@ -339,13 +355,19 @@
 									_token: universal_token
 								},
 								success:function(response){
+									$this.html(oldHtml)
 									let feedback = JSON.parse(response);
 									if (feedback.status == 'success') {
 										window.location.replace("{{ route('sent-sms') }}");
 
 									}
 									console.log(response);
+									$this.html(oldHtml)
 									 // $('#message-slug').val(response);
+								},
+								error:function(par1, par2, par3){
+									alert(par3)
+									$this.html(oldHtml)
 								}
 							});
 						}
@@ -399,7 +421,7 @@
 
 
 			$('.custom-select2').next().find('.select2-selection__rendered').click(function(){
-				alert('hey');
+				// alert('hey');
 			});
 
 			function saveSchedule(option){

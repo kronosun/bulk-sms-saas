@@ -45,7 +45,7 @@
 	<script src="{{ asset('dashboard/src/plugins/highcharts-6.0.7/code/highcharts-more.js')}}"></script>
 	<script src="{{ asset('dashboard/src/plugins/jvectormap/jquery-jvectormap-2.0.3.min.js')}}"></script>
 	<script src="{{ asset('dashboard/src/plugins/jvectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
-	<script src="{{ asset('dashboard/vendors/scripts/dashboard.js')}}"></script>
+	{{-- <script src="{{ asset('dashboard/vendors/scripts/dashboard.js')}}"></script> --}}
 	<script src="{{ asset('dashboard/vendors/scripts/dashboard2.js')}}"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	{{-- <script src="{{ asset('dashboard/src/plugins/sweetalert2/sweet-alert.init.js')}}"></script> --}}
@@ -137,7 +137,7 @@
 		function countChar(){
 			let charCount = $('#message-content').val().length;
 
-			let countFactor = parseFloat(charCount/60)
+			let countFactor = parseFloat(charCount/150)
 			let countFactorStr = countFactor.toString();
 			let countSplit = countFactorStr.split('.')
 			

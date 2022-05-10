@@ -136,7 +136,7 @@
 		})
 
 		$('#send-now').on('click', function(){
-
+			// alert('hey')
 			let option = $('#send-option').val();
 			
 			if (option==null) {

@@ -47,6 +47,7 @@ class SmsController extends Controller
         
     }
 
+
     public function sendComposed(Request $request){
        
         $msgSlug = clean($request->slug);
@@ -55,7 +56,7 @@ class SmsController extends Controller
 
         $charLen = strlen($message->content);
         // return $charLen;
-        $countFactor = $charLen/60;
+        $countFactor = $charLen/150;
         // return (float)$countFactor;
         $countFactorStr = strval((float)$countFactor);
         $countSplit = explode('.', $countFactorStr);
@@ -122,8 +123,11 @@ class SmsController extends Controller
                 $message->status = '1';
                 $message->save();
 
-                $sendNow = $this->sendMessage->sendMulti($sendArr, $message->content, $requiredUnits, Auth::user()->id);
-                
+                $sendNow = $this->sendMessage->sendMulti($sendArr, $message->content, $requiredUnits, Auth::user()->id, $message->id);
+                $response = json_decode($sendNow);
+                if (property_exists($sendNow, 'error') && $sendNow->error!='') {
+                    return json_encode(['status'=>'fail', 'message_status'=>'not sent', 'msg_slug'=>$message->slug, 'response'=>$sendNow]);
+                }
 
                 Session(['msg'=>'sending in progress', 'alert'=>'success']);
                 return json_encode(['status'=>'success', 'message_status'=>'sending in progress', 'msg_slug'=>$message->slug, 'response'=>$sendNow]);
@@ -213,8 +217,13 @@ class SmsController extends Controller
 
              // call the send message class
             // return 'yes';
-            $sendNow = $this->sendMessage->sendMulti($sendArr, $message->content, $unitsToDeduct, Auth::user()->id);
-            return $sendNow;
+            $sendNow = $this->sendMessage->sendMulti($sendArr, $message->content, $unitsToDeduct, Auth::user()->id, $message->id);
+            if (property_exists($sendNow, 'error') && $sendNow->error!='') {
+                    return json_encode(['status'=>'fail', 'message_status'=>'not sent', 'msg_slug'=>$message->slug, 'response'=>$sendNow]);
+                }
+
+                Session(['msg'=>'sending in progress', 'alert'=>'success']);
+                return json_encode(['status'=>'success', 'message_status'=>'sending in progress', 'msg_slug'=>$message->slug, 'response'=>$sendNow]);
         }
         
 

@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/sending-queue-emails', 'TestQueueEmails@send');
+
 Route::get('/', function () {
     return view('welcome');
 });

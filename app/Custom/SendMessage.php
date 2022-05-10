@@ -3,23 +3,28 @@
 
 	use Pnlinh\InfobipSms\Facades\InfobipSms;
 	use App\UnitPurchase;
-	use App\Models\ApiIntegration;
+	use App\ApiIntegration;
 	use App\Custom\NigeriaBulkSMS;
 	
 	class SendMessage
 	{
 
+		// function __construct()
+		// {
+			
+		// }
 
-		public function sendMulti($array, $message, $units, $user_id){
+		public function sendMulti($array, $message, $units, $user_id, $message_id){
 
 			// return $units;
 			$this->deductTime($units, $user_id);
-			$apiIntegration = ApiIntegration::first();
-			if ($apiIntegration->name = "nigerian_bulk_sms") {
-				NigeriaBulkSMS::send($array, $message);
-			}
+			$apiIntegration = ApiIntegration::where('name', 'nigerian_bulk_sms')->firstOrFail();
+			
+			$msgSender = new NigeriaBulkSMS;
+			return $msgSender->send($array, $message, $message_id);
+			// }
 	        // $response = InfobipSms::send($array, $message);
-	        return $response;
+	        // $response;
 	        // return 'done';
 	    }
 
