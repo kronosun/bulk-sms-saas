@@ -41,12 +41,12 @@
 	
 	{{-- dashboard css --}}
 	<script src="{{ asset('dashboard/src/plugins/jQuery-Knob-master/jquery.knob.min.js')}}"></script>
-	<script src="{{ asset('dashboard/src/plugins/highcharts-6.0.7/code/highcharts.js')}}"></script>
-	<script src="{{ asset('dashboard/src/plugins/highcharts-6.0.7/code/highcharts-more.js')}}"></script>
+	{{-- <script src="{{ asset('dashboard/src/plugins/highcharts-6.0.7/code/highcharts.js')}}"></script>
+	<script src="{{ asset('dashboard/src/plugins/highcharts-6.0.7/code/highcharts-more.js')}}"></script> --}}
 	<script src="{{ asset('dashboard/src/plugins/jvectormap/jquery-jvectormap-2.0.3.min.js')}}"></script>
 	<script src="{{ asset('dashboard/src/plugins/jvectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
 	{{-- <script src="{{ asset('dashboard/vendors/scripts/dashboard.js')}}"></script> --}}
-	<script src="{{ asset('dashboard/vendors/scripts/dashboard2.js')}}"></script>
+	{{-- <script src="{{ asset('dashboard/vendors/scripts/dashboard2.js')}}"></script> --}}
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	{{-- <script src="{{ asset('dashboard/src/plugins/sweetalert2/sweet-alert.init.js')}}"></script> --}}
 	{{-- <script src="{{ asset('dashboard/src/plugins/sweetalert2/sweetalert2.all.js')}}"></script> --}}
@@ -132,7 +132,7 @@
 		})
 		var pcount = 0;
 
-		countChar();
+		// countChar();
 
 		function countChar(){
 			let charCount = $('#message-content').val().length;

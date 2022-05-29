@@ -38,7 +38,7 @@
 						</div>
 						<div class="form-group">
 							<label class=" col-form-label">Message Content</label>
-							<textarea class="form-control compulsory-field" name="message" id="message-content" placeholder="start typing...">{{ $message->content }}</textarea>
+							<textarea class="form-control compulsory-field" name="message" id="message-content" placeholder="start typing..." >{{ $message->content }}</textarea>
 							<p class="text-danger" style="display: none;">This Field is Required</p>
 							<input type="hidden" id="message-slug" value="{{ $message->slug }}">
 						</div>
@@ -146,7 +146,9 @@
 
 						let content = $this.val();
 						let title = $('#title').val();
-
+						console.log(content);
+						// alert(content)
+						// return;
 						$.ajax({
 							type: 'POST',
 							url: "{{ route('save-message') }}",
