@@ -390,12 +390,12 @@
                             <div class="main-menu f-right d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">    
-                                        <li class="active"><a href="index.html"> Home</a></li>
+                                        <li class="active"><a href="{{ url('/') }}"> Home</a></li>
                                         <li><a href="#features">Features</a></li>
                                         <li><a href="#pricing">Pricing</a></li>
                                         <li><a href="#contact-us" >Contact Us</a></li>
                                         
-                                        <li><a href="login.html" class="my-btn" id="nav-btn">Login</a></li>
+                                        <li><a href="{{ route('login') }}" class="my-btn" id="nav-btn">Login</a></li>
                                     </ul>
                                 </nav>
                             </div>
