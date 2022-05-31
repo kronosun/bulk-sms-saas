@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Message;
 use Str;
-
 use Auth;
 use App\Contact;
 use App\MessageContact;
