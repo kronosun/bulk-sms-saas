@@ -185,7 +185,7 @@
         </section>
         
         <!-- UNIT PRICE CALCULATOR-->
-        <div class="row py-5" style="background-image: url({{ asset('assets/img/gallery/best_pricingbg.jpg')}}; min-height: 450px; position: relative;">
+        <div class="row py-5" style="background-image: url({{ asset('assets/img/gallery/best_pricingbg.jpg')}}); min-height: 450px; position: relative;">
             <div class="pricing-overlay" style="position:absolute; height: 100%; top: 0; left: 0; right:0; bottom: 0; background-color: #375c8c; z-index: 2; opacity: 0.9;" id="pricing"></div>
             <div class="container" style="height: 100%; z-index:3;">
                 <div id="unit_price_calc" class="wrapper">

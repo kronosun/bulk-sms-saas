@@ -26,6 +26,18 @@ Route::get('contact-api', function () {
 // Route::get('/verify-email', 'UserController@emailVerification')->name('verify-email');
 
 Route::get('/verify-email/{email}/{code}', 'UserController@verifyEmail')->name('verify-email');
+
+Route::get('/forgot-password', function(){
+    return view('auth.passwords.forgot-password');
+})->name('forgot-password');
+
+Route::post('/send-password-reset-link', 'UserController@sendPasswordResetLink')->name('send-password-reset-link');
+
+Route::get('password-reset-feedback',  'UserController@PasswordResetFeedBack')->name('password-reset-feedback');
+Route::get('password-reset/{email}/{token}', 'UserController@PasswordReset')->name('password-reset');
+Route::post('change-password', 'UserController@changePassword')->name('change-password');
+
+
 Auth::routes(['verify' => true]);
 
 // authenticated user routes

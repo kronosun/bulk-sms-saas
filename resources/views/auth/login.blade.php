@@ -48,7 +48,7 @@
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="forgot-password"><a href="forgot-password.html" class="text-skezzole">Forgot Password</a></div>
+                                    <div class="forgot-password"><a href="{{route('forgot-password')}}" class="text-skezzole">Forgot Password</a></div>
                                 </div>
                             </div>
                             <div class="row">
