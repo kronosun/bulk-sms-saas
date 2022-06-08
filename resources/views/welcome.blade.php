@@ -363,7 +363,7 @@
                              <p></p>
 
                               <div class="say-btn">
-                                <a href="#download" class="btn radius-btn mb-3">Download User Guide</a>
+                                <a href="{{ url('user-guide.pdf') }}" class="btn radius-btn mb-3" download>Download User Guide</a>
                             
                         </div>
                         </div>

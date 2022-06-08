@@ -427,11 +427,11 @@
                          <div class="single-footer-caption mb-30">
                               <!-- logo -->
                              <div class="footer-logo">
-                                 <a href="{{ url('/') }}"><img src="{{ asset('assets/img/logo/logo.png')}}" alt="" width="100"></a>
+                                 <a href="index.html"><img src="assets/img/logo/logo.png" alt="" width="100"></a>
                              </div>
                              <div class="footer-tittle">
                                  <div class="footer-pera">
-                                     <p class="info1">Send a bulk SMS to a wide range of Contacts without cutting out any and have them all delivered in minutes. </p>
+                                     <p class="info1">Send bulk SMS to your wide range of Contacts, no cutting just speedy delivery. </p>
                                 </div>
                              </div>
                          </div>
@@ -441,11 +441,11 @@
                             <div class="footer-tittle">
                                 <h4>Quick Links</h4>
                                 <ul>
-                                    <li><a href="#">About</a></li>
-                                    <li><a href="#">Features</a></li>
-                                    <li><a href="#">Pricing</a></li>
-                                    <li><a href="#">Download</a></li>
-                                    <li><a href="#">Reviews</a></li>
+                                    <li><a href="#contact-us">Contact us</a></li>
+                                    <li><a href="#features">Features</a></li>
+                                    <li><a href="#pricing">Pricing</a></li>
+                                    <li><a href="#user-guide">User Guide</a></li>
+                                    
                                 </ul>
                             </div>
                         </div>
@@ -455,9 +455,9 @@
                             <div class="footer-tittle">
                                 <h4>Support</h4>
                                 <ul>
-                                    <li><a href="#">Report a bug</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
-                                    <li><a href="#">Terms & Conditions</a></li>
+                                    <!-- <li><a href="#">Report a bug</a></li> -->
+                                    <li><a href="Legal-page.html">Privacy Policy</a></li>
+                                    <li><a href="Legal-page.html">Terms & Conditions</a></li>
                                     <li><a href="#">Sitemap</a></li>
                                     <li><a href="#">FAQs</a></li>
                                 </ul>
@@ -467,22 +467,24 @@
                     <div class="col-lg-3 col-md-6 col-sm-8">
                         <div class="single-footer-caption mb-50">
                             <div class="footer-tittle">
-                                <h4>Newsletter</h4>
+                                <h4>Social Media</h4>
                                 <div class="footer-pera footer-pera2">
-                                 <p>No Spam, just one mail per week. </p>
-                             </div>
+                                     <span><a href="#"><i class="fab fa-facebook "></i></a><span><br><br>
+                                     <span><a href="#"><i class="fab fa-whatsapp"></i></a><span><br><br>
+                                     <span><a href="#"><i class="fab fa-linkedin"></i></a><span>
+                                </div>
                              <!-- Form -->
-                             <div class="footer-form">
+                             <!-- <div class="footer-form">
                                  <div id="mc_embed_signup">
                                      <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscribe_form relative mail_part" novalidate="true">
                                          <input type="email" name="EMAIL" id="newsletter-form-email" placeholder=" Email Address " class="placeholder hide-on-focus" onfocus="this.placeholder = ''" onblur="this.placeholder = ' Email Address '">
                                          <div class="form-icon">
-                                             <button type="submit" name="submit" id="newsletter-submit" class="email_icon newsletter-submit button-contactForm"><img src="{{ asset('assets/img/shape/form_icon.png')}}" alt=""></button>
+                                             <button type="submit" name="submit" id="newsletter-submit" class="email_icon newsletter-submit button-contactForm"><img src="assets/img/shape/form_icon.png" alt=""></button>
                                          </div>
                                          <div class="mt-10 info"></div>
                                      </form>
                                  </div>
-                             </div>
+                             </div> -->
                             </div>
                         </div>
                     </div>
@@ -493,7 +495,7 @@
                         <div class="footer-copy-right">
                            <p>
                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | powered by <a href="#" target="_blank"><img src="{{ asset('assets/img/logo/logo.png')}}" alt="" width="80"></a>  template by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | powered by <a href="#" target="_blank"><img src="assets/img/logo/logo.png" alt="" width="80"></a>  template by <a href="https://colorlib.com/" target="_blank">Colorlib</a>
                                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             </p>
                         </div>
