@@ -201,7 +201,7 @@ class PaymentController extends Controller
 
 
         // dd($tranx);
-        if (!$tranx['status']) {
+        if (!array_key_exists('status', $tranx)) {
             // there was an error from the API
             die('API returned error: ' . $tranx->message);
         }
