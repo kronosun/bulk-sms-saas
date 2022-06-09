@@ -115,6 +115,132 @@ class PaymentController extends Controller
        
     }
 
+
+    public function payWithPaystack(Request $request){
+    
+
+    $paystack_key = env('PAYSTACK_SECRET_KEY');
+    $callback_url = route('verify-paystack-payment');
+
+    $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.paystack.co/transaction/initialize",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYHOST => false,
+           CURLOPT_SSL_VERIFYPEER => false,
+
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => json_encode([
+                'amount' => $request->amount*100,
+                'email' => Auth::user()->email,
+                'callback_url' => $callback_url,
+                'metadata' => ['reference'=>$request->reference, 'purpose'=>$request->purpose],
+            ]),
+
+            CURLOPT_HTTPHEADER => [
+                "authorization: Bearer ". $paystack_key, //replace this with your own test key
+                "content-type: application/json",
+                "cache-control: no-cache"
+            ],
+        ));
+
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        if ($err) {
+            // there was an error contacting the Paystack API
+            die('Curl returned error: ' . $err);
+        }
+
+        $tranx = json_decode($response, true);
+
+        if (!$tranx['status']) {
+            // there was an error from the API
+            dd('API returned error: ' . $tranx['message']);
+        }
+        // dd($tranx);
+        // comment out this line if you want to redirect the user to the payment page
+       // dd($tranx);
+        // redirect to page so User can pay
+        // uncomment this line to allow the user redirect to the payment page
+        return redirect($tranx['data']['authorization_url']);
+    }
+
+
+    public function verifyPaystackPayment(Request $request){
+        // dd($request);
+       
+        $paystack_key = env('PAYSTACK_SECRET_KEY');
+
+        $curl = curl_init();
+        $reference = isset($_GET['reference']) ? $_GET['reference'] : null;
+        if (!$reference) {
+            die('No reference supplied');
+        }
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.paystack.co/transaction/verify/" . rawurlencode($reference),
+            CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_SSL_VERIFYHOST => false,
+        CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_HTTPHEADER => [
+                "accept: application/json",
+                "authorization: Bearer ".$paystack_key,
+                "cache-control: no-cache"
+            ],
+        ));
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        if ($err) {
+            // there was an error contacting the Paystack API
+            die('Curl returned error: ' . $err);
+        }
+
+        $tranx = json_decode($response, true);
+
+
+        // dd($tranx);
+        if (!$tranx['status']) {
+            // there was an error from the API
+            die('API returned error: ' . $tranx->message);
+        }
+
+        if ('success' == $tranx['data']['status']) {
+
+            $payment = Payment::where('reference', $tranx['data']['metadata']['reference'])->first();
+            $payment->status == 'success';
+            $payment->save();
+
+            if($tranx['data']['metadata']['purpose'] != 'credit_purchase'){
+                die('payment successful. but purpose unknown. Please contact us via support@skezzole.com.ng');
+                // dd('Payment purpose unknown');
+            }
+            $creditUnit = $this->createUnitPurchase($payment->id, $payment->amount);
+            if ($creditUnit['status'] == 'success') {
+                Session(['msg'=>$creditUnit['data']->quantity.' units have been creditted to your account', 'alert'=>'success']);
+                return redirect()->route('credits');
+            }
+            return;
+
+            // Mail::to(Auth::user()->email)->send(new NewOrder($details));
+            // Mail::to('nnebuchiosigbo340@gmail.com')->send(new AdminOrderNotifier($details));
+            // dd('completed');
+
+            // return redirect()->route('order-history');
+            // return redirect()->route('user.order',$tranx['data']['metadata']['order_no'])->with('success', 'Your payment was successful');
+            // transaction was successful...
+            // please check other things like whether you already gave value for this ref
+            // if the email matches the customer who owns the product etc
+            // Give value
+
+
+        }else{
+            Session(['msg'=>'Payment failed', 'alert'=>'danger']);
+            return redirect()->route('buy-unit'); 
+        }
+    }
+
     public function createUnitPurchase($payment_id, $amount){
         $quantity = $amount/siteSetting()->cost_per_unit;
         $unitPurchase = new UnitPurchase;

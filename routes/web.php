@@ -86,11 +86,15 @@ Route::group(['middleware' => ['auth']], function () {
         Route::group(['prefix' => 'credits'], function () {
             Route::get('/', 'CreditController@index')->name('credits');
             Route::get('/buy', 'CreditController@buy')->name('buy-unit');
+            Route::get('/pay-with-paystack', 'CreditController@buy')->name('buy-unit');
         });
+
 
          // credit routes
         Route::group(['prefix' => 'payments'], function () {
             Route::post('/create', 'PaymentController@create')->name('create-payment');
+            Route::post('/pay-with-paystack', 'PaymentController@payWithPaystack')->name('pay-with-paystack');
+            Route::get('/verify-paystack-payment', 'PaymentController@verifyPaystackPayment')->name('verify-paystack-payment');
             Route::post('/update', 'PaymentController@update')->name('update-payment');
         });
     });

@@ -41,14 +41,15 @@
                                 <div class="row">
                                     <div class="col-12 text-left">
                                         <h4 class="card-title mt-5 ">Payment Method</h4>
+                                        {{-- <h5>Supported Cards</h5> --}}
 
                                         <p>Select your preffered payment method to proceed </p>
                                     </div>
                                     <div class="col-12 mt-2">
                                         
                                         <div class="accordion" id="accordionExample">
-                                          <div class="card">
-                                            <div class="card-header py-1" id="headingOne">
+                                          {{-- <div class="card">
+                                            <div class="card-header py-1" id="flutterwave">
                                               <h2 class="mb-0">
                                                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#flutterwave-div" aria-expanded="true" aria-controls="flutterwave-div" style="background-color:transparent!important; border:1px solid transparent;">
                                                   <label>
@@ -59,16 +60,41 @@
                                               </h2>
                                             </div>
 
-                                            <div id="flutterwave-div" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                            <div id="flutterwave-div" class="collapse" aria-labelledby="flutterwave" data-parent="#accordionExample">
                                               <div class="card-body py-2">
                                                <form>
                                                     <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
-                                                    <button class="btn btn-navy" type="button" onClick="payWithRave()" id="rave-btn">Pay with Flutterwave</button>
+                                                    <button class="btn btn-navy payment-btn" gateway="" type="button" onClick="createPayment(event)" id="rave-btn">Pay with Flutterwave</button>
+                                                </form>
+                                              </div>
+                                            </div>
+                                          </div> --}}
+                                          <div class="card">
+                                            <div class="card-header py-1" id="paystack">
+                                              <h2 class="mb-0">
+                                                <button class="btn btn-link" type="button" data-toggle="collaps" data-target="#paystack-div" aria-expanded="true" aria-controls="paystack-div" style="background-color:transparent!important; border:1px solid transparent;">
+                                                    <label>
+                                                      <input type="radio" name="test" value="big" checked>
+                                                        <img src="{{ asset('assets/img/payment') }}/paystack.png" width="150">
+                                                    </label>
+                                                </button>
+                                              </h2>
+                                            </div>
+
+                                            <div id="paystack-div" class="collaps" aria-labelledby="paysatck" data-parent="#accordionExample">
+                                              <div class="card-body py-2">
+                                                <img src="{{ asset('assets/img/payment/paystack-cards.png') }}" class="mr-2 mb-2" height="100">
+                                               <form id="paystack-form" action="{{ route('pay-with-paystack') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="amount" value="" id="paystack-amount" />
+                                                    <input type="hidden" name="reference" value="" id="paystack-reference" />
+                                                    <input type="hidden" name="purpose" value="credit_purchase" />
+                                                    <button class="btn btn-navy payment-btn" gateway="paystack" type="button" onClick="createPayment(event)" id="paystack-btn">Pay with Paystack</button>
                                                 </form>
                                               </div>
                                             </div>
                                           </div>
-                                          <div class="card">
+                                          {{-- <div class="card">
                                             <div class="card-header py-1" id="headingTwo">
                                               <h2 class="mb-0">
                                                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#credit-card-div" aria-expanded="false" aria-controls="credit-card-div" style="background-color:transparent!important; border:1px solid transparent;">
@@ -132,7 +158,7 @@
                                                         
                                                         <!-- Submit Section -->
                                                         <div class="submit-section mt-4">
-                                                            <button type="button" class="btn btn-navy submit-btn payment-btn" id="cardSubmitBtn">Confirm and Pay</button>
+                                                            <button type="button" class="btn btn-navy payment-btn submit-btn payment-btn" gateway="" id="cardSubmitBtn">Confirm and Pay</button>
                                                         </div>
                                                         <!-- /Submit Section -->
                                                         
@@ -140,9 +166,9 @@
                                                 </form>
                                               </div>
                                             </div>
-                                          </div>
+                                          </div> --}}
 
-                                          <div class="card">
+                                          {{-- <div class="card">
                                             <div class="card-header py-1" id="headingTwo">
                                               <h2 class="mb-0">
                                                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#bank-transfer-div" aria-expanded="false" aria-controls="bank-transfer-div" style="background-color:transparent!important; border:1px solid transparent;">
@@ -159,7 +185,7 @@
                                                 Bank Detail Goes in here
                                               </div>
                                             </div>
-                                          </div>
+                                          </div> --}}
                                           
                                         </div>
                                     </div>
@@ -222,221 +248,194 @@
             opacity: 1;
         }
 
-            @media(max-width:  992px){
-               #loading-image {
-                  position: absolute;
-                  top: 15%;
-                  left: 40%;
-                  z-index: 100;
-                  height: 200px;
-                }
-
-                #loading p {
-                /*float: left;*/
-                font-size: 1em;
-                font-weight: bold;
-                padding: 6px 0 0 12px;
-                white-space: nowrap;
-                left: 45%; 
-                margin-top: 34%;
-                position: absolute;
-                opacity: 1;
+        @media(max-width:  992px){
+           #loading-image {
+              position: absolute;
+              top: 15%;
+              left: 40%;
+              z-index: 100;
+              height: 200px;
             }
 
-             @media(max-width:  768px){
-               #loading-image {
-                  position: absolute;
-                  top: 15%;
-                  left: 37%;
-                  z-index: 100;
-                  height: 200px;
-                }
-
-                #loading p {
-                /*float: left;*/
-                font-size: 1em;
-                font-weight: bold;
-                padding: 6px 0 0 12px;
-                white-space: nowrap;
-                left: 43%; 
-                margin-top: 40%;
-                position: absolute;
-                opacity: 1;
-            }
-
-            @media(max-width:  576px){
-               #loading-image {
-                  position: absolute;
-                  top: 15%;
-                  left: 30%;
-                  z-index: 100;
-                  height: 200px;
-                }
-
-                #loading p {
-                /*float: left;*/
-                font-size: 1em;
-                font-weight: bold;
-                padding: 6px 0 0 12px;
-                white-space: nowrap;
-                left: 37%; 
-                margin-top: 50%;
-                position: absolute;
-                opacity: 1;
-            }
-
-            @media(max-width:  575px){
-               #loading-image {
-                  position: absolute;
-                  top: 15%;
-                  left: 30%;
-                  z-index: 100;
-                  height: 150px;
-                }
-
-                #loading p {
-                /*float: left;*/
-                font-size: 1em;
-                font-weight: bold;
-                padding: 6px 0 0 12px;
-                white-space: nowrap;
-                left: 32%; 
-                margin-top: 70%;
-                position: absolute;
-                opacity: 1;
-            }
+            #loading p {
+            /*float: left;*/
+            font-size: 1em;
+            font-weight: bold;
+            padding: 6px 0 0 12px;
+            white-space: nowrap;
+            left: 45%; 
+            margin-top: 34%;
+            position: absolute;
+            opacity: 1;
         }
+
+        @media(max-width:  768px){
+           #loading-image {
+              position: absolute;
+              top: 15%;
+              left: 37%;
+              z-index: 100;
+              height: 200px;
+            }
+
+            #loading p {
+            /*float: left;*/
+            font-size: 1em;
+            font-weight: bold;
+            padding: 6px 0 0 12px;
+            white-space: nowrap;
+            left: 43%; 
+            margin-top: 40%;
+            position: absolute;
+            opacity: 1;
+        }
+
+        @media(max-width:  576px){
+           #loading-image {
+              position: absolute;
+              top: 15%;
+              left: 30%;
+              z-index: 100;
+              height: 200px;
+            }
+
+            #loading p {
+            /*float: left;*/
+            font-size: 1em;
+            font-weight: bold;
+            padding: 6px 0 0 12px;
+            white-space: nowrap;
+            left: 37%; 
+            margin-top: 50%;
+            position: absolute;
+            opacity: 1;
+        }
+
+        @media(max-width:  575px){
+           #loading-image {
+              position: absolute;
+              top: 15%;
+              left: 30%;
+              z-index: 100;
+              height: 150px;
+            }
+
+            #loading p {
+            /*float: left;*/
+            font-size: 1em;
+            font-weight: bold;
+            padding: 6px 0 0 12px;
+            white-space: nowrap;
+            left: 32%; 
+            margin-top: 70%;
+            position: absolute;
+            opacity: 1;
+        }
+    
     </style>
 
-    <script>
-    function cardFormValidate(){
-    var cardValid = 0;
-      
-    // Card number validation
-    $('#card_number').validateCreditCard(function(result) {
-        console.log(result)
-        var cardType = (result.card_type == null)?'':result.card_type.name;
-        if(cardType == 'Visa'){
-            var backPosition = result.valid?'2px -163px, 260px -87px':'2px -163px, 260px -61px';
-        }else if(cardType == 'MasterCard'){
-            var backPosition = result.valid?'2px -247px, 260px -87px':'2px -247px, 260px -61px';
-        }else if(cardType == 'Maestro'){
-            var backPosition = result.valid?'2px -289px, 260px -87px':'2px -289px, 260px -61px';
-        }else if(cardType == 'Discover'){
-            var backPosition = result.valid?'2px -331px, 260px -87px':'2px -331px, 260px -61px';
-        }else if(cardType == 'Amex'){
-            var backPosition = result.valid?'2px -121px, 260px -87px':'2px -121px, 260px -61px';
-        }else{
-            var backPosition = result.valid?'2px -121px, 260px -87px':'2px -121px, 260px -61px';
-        }
-        $('#card_number').css("background-position", backPosition);
-        if(result.valid){
-            $("#card_type").val(cardType);
-            $("#card_number").removeClass('required');
-            cardValid = 1;
-        }else{
-            $("#card_type").val('');
-            $("#card_number").addClass('required');
-            cardValid = 0;
-        }
-    });
-      
-    // Card details validation
-    var cardName = $("#name_on_card").val();
-    var expMonth = $("#expiry_month").val();
-    var expYear = $("#expiry_year").val();
-    var cvv = $("#cvv").val();
-    var regName = /^[a-z ,.'-]+$/i;
-    var regMonth = /^01|02|03|04|05|06|07|08|09|10|11|12$/;
-    var regYear = /^2017|2018|2019|2020|2021|2022|2023|2024|2025|2026|2027|2028|2029|2030|2031$/;
-    var regCVV = /^[0-9]{3,3}$/;
-    if(cardValid == 0){
-        $("#card_number").addClass('required');
-        $("#card_number").focus();
-        return false;
-    }else if(!regMonth.test(expMonth)){
-        $("#card_number").removeClass('required');
-        $("#expiry_month").addClass('required');
-        $("#expiry_month").focus();
-        return false;
-    }else if(!regYear.test(expYear)){
-        $("#card_number").removeClass('required');
-        $("#expiry_month").removeClass('required');
-        $("#expiry_year").addClass('required');
-        $("#expiry_year").focus();
-        return false;
-    }else if(!regCVV.test(cvv)){
-        $("#card_number").removeClass('required');
-        $("#expiry_month").removeClass('required');
-        $("#expiry_year").removeClass('required');
-        $("#cvv").addClass('required');
-        $("#cvv").focus();
-        return false;
-    }else if(!regName.test(cardName)){
-        $("#card_number").removeClass('required');
-        $("#expiry_month").removeClass('required');
-        $("#expiry_year").removeClass('required');
-        $("#cvv").removeClass('required');
-        $("#name_on_card").addClass('required');
-        $("#name_on_card").focus();
-        return false;
-    }else{
-        $("#card_number").removeClass('required');
-        $("#expiry_month").removeClass('required');
-        $("#expiry_year").removeClass('required');
-        $("#cvv").removeClass('required');
-        $("#name_on_card").removeClass('required');
-        $('#cardSubmitBtn').prop('disabled', false);  
-        return true;
-    }
-}
-const ravePubKey = "{{ env('RAVE_PUB_KEY') }}";
- function payWithRave() {
-    $('#rave-btn').html('<i class="fa fa-spin fa-spinner"></i> connecting...');
-    $('#rave-btn').prop('disabled', true);
-    $.ajax({
-        type:'POST',
-        url: "{{ route('create-payment') }}",
-        data:{
-            description:"Unit Purchase by {{ Auth::user()->username }}",
-            currency: "NGN",
-            gateway: "rave",
-            amount: $('#cost-input').val(),
-            purpose: "credit_purchase",
-            _token:universal_token,
-        },
-        success:function(data){
-            feedback = JSON.parse(data);
-            if (feedback.status == 'success') {
 
-                var x = getpaidSetup({
-                    PBFPubKey: ravePubKey,
-                    customer_email: "{{ Auth::user()->email }}",
-                    amount: feedback.amount,
+    <script src="{{ asset('dashboard/src/scripts/payment.js') }}"></script>
+
+    <script>
+       
+        const ravePubKey = "{{ env('RAVE_PUB_KEY') }}";
+        function createPayment(event) {
+            let clickedBtn = event.target;
+
+            clickedBtn.innerHTML=('<i class="fa fa-spin fa-spinner"></i> connecting...');
+            $('payment-btn').prop('disabled', true);
+            $.ajax({
+                type:'POST',
+                url: "{{ route('create-payment') }}",
+                data:{
+                    description:"Unit Purchase by {{ Auth::user()->username }}",
                     currency: "NGN",
-                    txref: feedback.reference,
-                    meta: [{
-                        metaname: "SkezzoleRef",
-                        metavalue: feedback.reference,
-                    }],
-                    onclose: function(){
-                        $('#rave-btn').html(oldHtml);
-                        $('#rave-btn').prop('disabled', false);
-                    },
-                    callback: function(response) {
+                    gateway: clickedBtn.getAttribute('gateway'),
+                    amount: $('#cost-input').val(),
+                    purpose: "credit_purchase",
+                    _token:universal_token,
+                },
+                success:function(data){
+                    feedback = JSON.parse(data);
+                    if (feedback.status == 'success') {
+                        // if the flutterave option is used
+                        if (clickedBtn.id == 'rave-btn') {
+                            payWithRave(feedback);
+                        }
+                        // if paystack option is used
+                        if (clickedBtn.id == 'paystack-btn') {
+                           $('#paystack-reference').val(feedback.reference)
+                           $('#paystack-form').submit();
+                        }
                        
-                        console.log(response.data);
-                        // return;
-                        if(response.data.data.responsecode == "00" || response.data.data.responsecode == "0"){
-                            
+                    }
+                    
+                },
+                error:function(param1, param2, param3){
+                     $('#rave-btn').html(oldHtml);
+                    $('#rave-btn').prop('disabled', false);
+                    alert(param3);
+                }
+           });
+        }
+
+        function payWithRave(feedback){
+            var x = getpaidSetup({
+                PBFPubKey: ravePubKey,
+                customer_email: "{{ Auth::user()->email }}",
+                amount: feedback.amount,
+                currency: "NGN",
+                txref: feedback.reference,
+                meta: [{
+                    metaname: "SkezzoleRef",
+                    metavalue: feedback.reference,
+                }],
+                onclose: function(){
+                    $('#rave-btn').html(oldHtml);
+                    $('#rave-btn').prop('disabled', false);
+                },
+                callback: function(response) {
+                   
+                    console.log(response.data);
+                    // return;
+                    if(response.data.data.responsecode == "00" || response.data.data.responsecode == "0"){
+                        
+                        $.ajax({
+                            type:'POST',
+                            url: "{{ route('update-payment') }}",
+                            data:{
+                                reference:response.data.tx.txRef,
+                                id:response.data.tx.id,
+                                amount: response.data.tx.amount,
+                                payResponse: response.tx,
+                                _token: universal_token
+                            },
+                            success:function(updateData){
+                                updateData = JSON.parse(updateData)
+                                if(updateData.status =='success'){
+                                    window.location.replace("{{ url('home') }}");
+                                }else{
+                                   console.log(updateData)
+                                    alert('payment failed. Something went wrong');
+                                }
+                            },
+                            error:function(xhr,status,error){
+                                alert(error)
+                            },
+                        });
+
+                    }else {
+
+                        if (response.data.respcode == "00" || response.data.respcode == "0") {
                             $.ajax({
                                 type:'POST',
                                 url: "{{ route('update-payment') }}",
                                 data:{
-                                    reference:response.data.tx.txRef,
-                                    id:response.data.tx.id,
-                                    amount: response.data.tx.amount,
-                                    payResponse: response.tx,
+                                    reference:response.data.transactionobject.txRef,
+                                    id:response.data.transactionobject.id,
+                                    amount: response.data.transactionobject.amount,
+                                    payResponse: response.data.transactionobject,
                                     _token: universal_token
                                 },
                                 success:function(updateData){
@@ -452,169 +451,147 @@ const ravePubKey = "{{ env('RAVE_PUB_KEY') }}";
                                     alert(error)
                                 },
                             });
-
-                        }else {
-
-                            if (response.data.respcode == "00" || response.data.respcode == "0") {
-                                $.ajax({
-                                    type:'POST',
-                                    url: "{{ route('update-payment') }}",
-                                    data:{
-                                        reference:response.data.transactionobject.txRef,
-                                        id:response.data.transactionobject.id,
-                                        amount: response.data.transactionobject.amount,
-                                        payResponse: response.data.transactionobject,
-                                        _token: universal_token
-                                    },
-                                    success:function(updateData){
-                                        updateData = JSON.parse(updateData)
-                                        if(updateData.status =='success'){
-                                            window.location.replace("{{ url('home') }}");
-                                        }else{
-                                           console.log(updateData)
-                                            alert('payment failed. Something went wrong');
-                                        }
-                                    },
-                                    error:function(xhr,status,error){
-                                        alert(error)
-                                    },
-                                });
-                            }else{
-                                alert('Something went wrong. It seems there is something wrong with your card. and try the following: <ul> <li> Check if your card is funded. If not, reload page, fund card and try again</li> <li>Try another card</li> <i>If Error Persists, Contact support with error code: SK-002</i>');
-                            }
-                            
+                        }else{
+                            alert('Something went wrong. It seems there is something wrong with your card. and try the following: <ul> <li> Check if your card is funded. If not, reload page, fund card and try again</li> <li>Try another card</li> <i>If Error Persists, Contact support with error code: SK-002</i>');
                         }
-                        $('#rave-btn').html(oldHtml)
-                        $('#rave-btn').prop('disabled', false)
-                        // x.close(); // use this to close the modal immediately after payment.
-                    }       
-                })
-            }
-            
-        },
-        error:function(param1, param2, param3){
-             $('#rave-btn').html(oldHtml);
-            $('#rave-btn').prop('disabled', false);
-            alert(param3);
-        }
-   });
-}
-    
-
-    $(document).ready(function(){
-        
-        // Initiate validation on input fields
-        $('#card_number, #expiry_month, #expiry_year, #cvv').on('keyup',function(){
-            cardFormValidate();
-        });
-
-
-        // Submit card form
-        $("#cardSubmitBtn").on('click',function(){
-            var oldHtml = $(this).html();
-            $("#cardSubmitBtn").prop('disabled', true)
-            $('.status-msg').remove();
-            if(cardFormValidate()){
-                // var formData = $('#paymentForm').serialize();
-                var card_holder = $('#name_on_card').val();
-
-                var card_number = $('#card_number').val();
-                var expiry = $('#expiry_year').val()+'-'+$('#expiry_month').val();
-                var cvv = $('#cvv').val();
-                var card_type = $('#card_type').val();
-                $.ajax({
-                    type:'POST',
-                    url: "",
-                    data:{
-                        card_holder:card_holder,
-                        expiry: expiry,
-                        cvv: cvv,
-                        card_number: card_number,
-                        card_type: card_type,
-                        plan_id: "",
-                        amount: $('cost-input').val(),
-                        plan: "",
-                        qty: '1',
-                        plan_unique_id: ""
-                    },
-                    beforeSend: function(){
-                        $("#cardSubmitBtn").prop('disabled', true);
-                        $("#cardSubmitBtn").html('Processing....');
-                    },
-                    success:function(data){
-                        // console.log(data);
-                        data = JSON.parse(data)
-
-                        if (data.status == 'success') {
-
-                            $('#loading').removeClass('d-none')
-                            setTimeout(function(){ 
-                                 activateStatus();
-                               
-                             }, 15000);
-                             
-                             
-                        }
-                        // console.log(data['ResponseMetadata']);
-                       
-
-                        $("#cardSubmitBtn").prop('disabled', false);
-                        $("#cardSubmitBtn").html(oldHtml);
-                    },
-                    error:function(xhr,status,error){
-                        alert(error)
-                        $("#cardSubmitBtn").prop('disabled', false);
-                        $("#cardSubmitBtn").html(oldHtml);
+                        
                     }
-                });
-            }
-        });
-
-        // calcultae cost once unit is inputed
-        $('#unit-input').on('input', function(){
-
-            calculateCost();
-        })
-
-        $('#cost-input').on('input', function(){
-
-            calculateUnit();
-        })
-       function calculateCost(){
-        var unitCost = parseFloat({{ siteSetting()->cost_per_unit }});
-        let unit = parseFloat($('#unit-input').val());
-        $('#cost-input').val(unit*unitCost);
-        $('#cost').text(unit*unitCost);
-       }
-
-
-        function calculateUnit(){
-            var unitCost = parseFloat({{ siteSetting()->cost_per_unit }});
-            let cost = parseFloat($('#cost-input').val());
-            $('#unit-input').val(cost/unitCost);
-            $('#cost').text(cost);
-       }
-
-        function activateStatus(){
-            $.ajax({
-                url: "",
-                type: "POST",
-                data: {
-                },
-                success:function(data){
-                    
-                    if (data == '1') {
-                        window.location.replace("");
-                    }else{
-                        console.log('nothing');
-                    }
-                    
-                }
+                    $('#rave-btn').html(oldHtml)
+                    $('#rave-btn').prop('disabled', false)
+                    // x.close(); // use this to close the modal immediately after payment.
+                }       
             })
         }
+        
+
+        $(document).ready(function(){
+            togglePaymentButton()
+            // Initiate validation on input fields
+            $('#card_number, #expiry_month, #expiry_year, #cvv').on('keyup',function(){
+                cardFormValidate();
+            });
 
 
-    });
-</script>
+            // Submit card form
+            $("#cardSubmitBtn").on('click',function(){
+                var oldHtml = $(this).html();
+                $("#cardSubmitBtn").prop('disabled', true)
+                $('.status-msg').remove();
+                if(cardFormValidate()){
+                    // var formData = $('#paymentForm').serialize();
+                    var card_holder = $('#name_on_card').val();
+
+                    var card_number = $('#card_number').val();
+                    var expiry = $('#expiry_year').val()+'-'+$('#expiry_month').val();
+                    var cvv = $('#cvv').val();
+                    var card_type = $('#card_type').val();
+                    $.ajax({
+                        type:'POST',
+                        url: "",
+                        data:{
+                            card_holder:card_holder,
+                            expiry: expiry,
+                            cvv: cvv,
+                            card_number: card_number,
+                            card_type: card_type,
+                            plan_id: "",
+                            amount: $('cost-input').val(),
+                            plan: "",
+                            qty: '1',
+                            plan_unique_id: ""
+                        },
+                        beforeSend: function(){
+                            $("#cardSubmitBtn").prop('disabled', true);
+                            $("#cardSubmitBtn").html('Processing....');
+                        },
+                        success:function(data){
+                            // console.log(data);
+                            data = JSON.parse(data)
+
+                            if (data.status == 'success') {
+
+                                $('#loading').removeClass('d-none')
+                                setTimeout(function(){ 
+                                     activateStatus();
+                                   
+                                 }, 15000);
+                                 
+                                 
+                            }
+                            // console.log(data['ResponseMetadata']);
+                           
+
+                            $("#cardSubmitBtn").prop('disabled', false);
+                            $("#cardSubmitBtn").html(oldHtml);
+                        },
+                        error:function(xhr,status,error){
+                            alert(error)
+                            $("#cardSubmitBtn").prop('disabled', false);
+                            $("#cardSubmitBtn").html(oldHtml);
+                        }
+                    });
+                }
+            });
+
+            // calcultae cost once unit is inputed
+            $('#unit-input').on('input', function(){
+
+                calculateCost();
+            })
+
+            $('#cost-input').on('input', function(){
+
+                calculateUnit();
+            })
+           function calculateCost(){
+            var unitCost = parseFloat({{ siteSetting()->cost_per_unit }});
+            let unit = parseFloat($('#unit-input').val());
+            $('#cost-input').val(unit*unitCost);
+            $('#cost').text(unit*unitCost);
+            $('#paystack-amount').val(unit*unitCost)
+            togglePaymentButton();
+            
+            
+           }
+
+
+            function calculateUnit(){
+                var unitCost = parseFloat({{ siteSetting()->cost_per_unit }});
+                let cost = parseFloat($('#cost-input').val());
+                $('#unit-input').val(cost/unitCost);
+                $('#cost').text(cost);
+                $('#paystack-amount').val(cost);
+                togglePaymentButton();
+           }
+
+            function activateStatus(){
+                $.ajax({
+                    url: "",
+                    type: "POST",
+                    data: {
+                    },
+                    success:function(data){
+                        
+                        if (data == '1') {
+                            window.location.replace("");
+                        }else{
+                            console.log('nothing');
+                        }
+                        
+                    }
+                })
+            }
+
+            function togglePaymentButton(){
+                if(parseFloat($('#cost-input').val()) > 0){
+                    $('.payment-btn').prop('disabled', false)
+                }else{
+                    $('.payment-btn').prop('disabled', true)
+                }
+            }
+
+
+        });
+    </script>
 
 @endsection

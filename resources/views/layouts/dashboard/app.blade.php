@@ -107,6 +107,7 @@
 	<script src="{{ asset('dashboard/src/plugins/datatables/js/vfs_fonts.js')}}"></script>
 	<!-- Datatable Setting js -->
 	<script src="{{ asset('dashboard/vendors/scripts/datatable-setting.js')}}"></script>
+	
 	<!-- add sweet alert js & css in footer -->
 	
 

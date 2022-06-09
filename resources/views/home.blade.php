@@ -72,7 +72,7 @@
                                     <i class="fa fa-paper-plane"></i>
                                 </span>
                                 <div class="dash-count">
-                                    <h3 class="text-brand-4">66</h3>
+                                    <h3 class="text-brand-4">{{ Auth::user()->messages()->where('status', '1')->count() }}</h3>
                                 </div>
                             </div>
                             <div class="dash-widget-info">
