@@ -132,8 +132,11 @@
 	<script>
 		
 		$(document).ready(function(){
+			@if($contactArr)
 			var contactArr = <?= json_encode($contactArr) ?>;
-			
+			@else
+				var contactArr = {};
+			@endif
 
 			var typeCount = 0
 			$('#message-content').on('input', function(){
