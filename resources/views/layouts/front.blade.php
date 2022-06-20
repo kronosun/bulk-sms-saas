@@ -380,7 +380,7 @@
                             <div class="d-block d-lg-none mobile-auth ml-auto">
                                 
                                 <!-- <a href="#" class="mr-2"  >Login</a> -->
-                                <a href="#" class="text-dark" style="padding: 8px 13px; background-color: #375c8c; color: white !important; border-radius: 5px; ">Register</a>
+                                <a href="{{route('register')}}" class="text-dark" style="padding: 8px 13px; background-color: #375c8c; color: white !important; border-radius: 5px; ">Register</a>
                             </div>
                             
                         </div>

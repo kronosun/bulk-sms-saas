@@ -46,7 +46,7 @@
                                     <!-- Slider btn -->
                                    <div class="slider-btns">
                                         <!-- Hero-btn -->
-                                        <a data-animation="fadeInLeft" data-delay="1.0s" href="register.html" class="btn radius-btn">Get started</a>
+                                        <a data-animation="fadeInLeft" data-delay="1.0s" href="{{ route('register }}')}}" class="btn radius-btn">Get started</a>
                                         <!-- Video Btn -->
                                         
                                    </div>
